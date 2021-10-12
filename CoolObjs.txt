@@ -1,0 +1,24 @@
+"ch2_lod4_s3a",  world slods?
+"ch2_lod4_s3b",
+"ch2_lod4_s3c",
+"ch3_lod_1_2_slod3",
+"ch3_lod_101114b_slod3",
+	
+"vw_prop_casino_phone_01b"  red light
+"bkr_prop_clubhouse_jukebox_01a"  plays music
+"ch_prop_ch_diamond_xmastree"  plays music
+"gr_prop_damship_01a"  ufo wrecked
+"p_spinning_anus_s"  ufo clean
+"sum_prop_dufocore_01a"  diff ufo (super fancy)
+"p_rcss_s"  mounted gun
+"prop_devin_box_dummy_01"  invisible with collision 
+"prop_elecbox_11"  death on spawn on player
+"sr_prop_spec_tube_crn_01a"  flashing prison
+"sr_prop_special_bblock_xl3"  floor for slod world
+"sr_prop_sr_start_line_02"  bigger slod floor
+"sr_prop_track_straight_l_u5"  huge slod floor
+"v_ilev_body_parts"  body parts
+"v_ilev_cd_sprklr_on",
+"v_ilev_cd_sprklr_on2",
+"v_ilev_prop_74_emr_3b"  flashing red light
+"v_ilev_prop_74_emr_3b_02"  flashing red light
