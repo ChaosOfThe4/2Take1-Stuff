@@ -625,7 +625,7 @@ orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str"
 	PlayerArray()
 end)
 
---\\Function and array for player list
+--\\Function and array for player list made by GhostOne
 Playerz = {}
 function PlayerArray()
 	Playerz = {}
