@@ -14,11 +14,108 @@ function Split(s, delimiter)
 end
 --split_string = Split("Hello World!", " ")
 
+local keks_custom_modder_flags = 
+	{
+		["Has-Suspicious-Stats"] = 0,
+		["Blacklist"] = 0,
+		["Modded-Name"] = 0,
+		["Godmode"] = 0,
+		["0-Health-GodMode"] = 0
+	}
+
+--\\Checking for 0 health godmode/OTR
+function pedHealthCheck()
+	for i = 0, 31 do 
+		if player.is_player_valid(i) then
+			if ped.get_ped_max_health(i) == 0.0 then
+				player.set_player_as_modder(i, keks_custom_modder_flags["0-Health-GodMode"])
+			else
+				system.wait(10)
+			end
+		else
+			system.wait(10)
+		end
+	end
+end
+
+--\\Easy OTR
+function easyOTR(context)
+    if context.feat.on then
+		ped.set_ped_max_health(pedLocals,  0)
+	else
+		ped.set_ped_max_health(pedLocals, 328)
+		ped.set_ped_health(pedLocals, 328)
+	end
+end
+	
+--\\Easy godmode
+function easyGM(context)
+    if context.feat.on then
+        ped.set_ped_max_health(pedLocals, 1000000)
+		ped.set_ped_health(pedLocals,  1000000)
+	else
+		ped.set_ped_max_health(pedLocals, 328)
+		ped.set_ped_health(pedLocals, 328)
+	end
+end
+
+--\\Fire sniper for whiny kids
+function fireSniper(context)
+	if context.feat.on then
+		weapon.give_weapon_component_to_ped(pedLocals, 0xA914799, 0xEC0F617)
+    else
+		weapon.give_weapon_component_to_ped(pedLocals, 0xA914799, 0x89EBDAA7)
+	end
+end
+
+--\\Osiris scripts fixed safespace
+function safeSpace(context)
+	while context.feat.on do
+    location = player.get_player_coords(player.player_id()) --save location
+    menu.notify("Here is safe space!", "", 1, 190)
+    entity.set_entity_coords_no_offset(pedLocals, v3(-75, -818, 326)) --mazebank
+    system.yield(10)
+	
+    while context.feat.on do
+      entity.set_entity_coords_no_offset(pedLocals, v3(-8292.664, -4596.8257, 14358.0))--safe space
+      system.yield(1000)
+    end
+	
+    if feat.on == false then
+      menu.notify("Wait a sec", "", 2, 190)
+    end
+	
+    system.yield(10)
+	entity.set_entity_coords_no_offset(pedLocals, location)
+	end
+end
+
+--\\Osiris scripts explosive quickswap updated
+function quickSwap(context)
+	if context.feat.on then
+		if player.get_player_vehicle(pedLocals) == 143113 then
+			system.wait(10)
+		else
+			if ped.is_ped_shooting(pedLocals) then
+				if ped.get_current_ped_weapon(pedLocals) == 2726580491 then
+					weapon.remove_weapon_from_ped(pedLocals, 2726580491)
+					weapon.give_delayed_weapon_to_ped(pedLocals, 2726580491, 0, 1)
+				end
+				system.wait(1)
+				if ped.get_current_ped_weapon(pedLocals) == 1672152130 then
+					weapon.remove_weapon_from_ped(pedLocals, 1672152130)
+					weapon.give_delayed_weapon_to_ped(pedLocals, 1672152130, 0, 1)
+				end
+			end
+		end
+	end
+end
+
 --\\Good old zero2menu fps crash protex
 function fpsCrashCheck()
 	while true do
 		local limit = 10  
-		for i in ipairs(vehicle.get_all_vehicles())do    
+		for i in ipairs(vehicle.get_all_vehicles()) do    
 			local veh = vehicle.get_all_vehicles()[i]
 			if vehicleNearByStorage[entity.get_entity_model_hash(veh)] ~= nil then
 				vehicleNearByStorage[entity.get_entity_model_hash(veh)] = vehicleNearByStorage[entity.get_entity_model_hash(veh)]+1
@@ -27,7 +124,7 @@ function fpsCrashCheck()
 			vehicleNearByStorage[entity.get_entity_model_hash(veh)] = 1
 			end    
     --check limits
-			if (vehicleNearByStorage[entity.get_entity_model_hash(veh)] > limit) and ped.get_vehicle_ped_is_using(player.get_player_ped(player.player_id())) ~= veh then
+			if (vehicleNearByStorage[entity.get_entity_model_hash(veh)] > limit) and ped.get_vehicle_ped_is_using(pedLocals) ~= veh then
 				local pos = entity.get_entity_coords(veh)
 				pos.y = 20000
 				network.request_control_of_entity(veh)
@@ -132,6 +229,7 @@ function cleanPeds()
     end
 end
 
+--\\Function to request control of entities for a time
 function request_model(h, t)
 	if not h then 
 		return 
@@ -146,16 +244,13 @@ function request_model(h, t)
 	return streaming.has_model_loaded(h)
 end
 
-
+--\\Creates peds with parameters
 function Cped(type, hash, coords, dir)
 	request_model(hash, 300)
 	local ped = ped.create_ped(type, hash, coords, dir, true, false)
 	streaming.request_model(hash)
 	return ped
 end
-
-
-
 
 --\\Custome SE kick/crash sender
 function customSES(context)
@@ -239,44 +334,6 @@ function crazyRain(context)
 		clean(veh_spawn1)
 		clean(veh_spawn2)
     end
-end
-
---\\Lel more crash shit
-function IWOAttatch(context)
-	 local bones = {
-		"SKEL_Pelvis",
-		"IK_Head",
-		"MH_L_Elbow",
-		"MH_R_Elbow",
-		"SKEL_L_Hand",
-		"SKEL_R_Hand",
-		"IK_L_Foot",
-		"IK_R_Foot"
-	}
-	local pos = player.get_player_coords(context.pid)
-	streaming.request_model(gameplay.get_hash_key("h4_prop_grass_wiregrass_01"))
-	system.wait(500)
-	if true then 
-		--menu.notify("You will be teleported near the player, look away ASAP", "IWO Crash", 10, 2)
-		--entity.set_entity_coords_no_offset(pedLocals, v3(pos.x + 5, pos.y + 5, pos.z))
-		---system.wait(5000)
-		ped.clear_ped_tasks_immediately(player.get_player_ped(context.pid))
-		obj = {}
-		for i = 1, #bones do
-			local id = entity.get_entity_bone_index_by_name(player.get_player_ped(context.pid), bones[i])
-			obj[#obj+1] = object.create_world_object(gameplay.get_hash_key("h4_prop_grass_wiregrass_01"), player.get_player_coords(context.pid), true, false)
-			entity.attach_entity_to_entity(obj[#obj], player.get_player_ped(context.pid), id, v3(0,0,0.0), v3(0.0,0,0.0), true, true, false, 0, true)
-		end
-		system.wait(0)
-		
-		menu.notify("Crash Sent, Do Not Look At The Player", "IWO Attachment", 10, 2)
-
-		system.wait(15000)
-		for i = 1, #bones do
-			entity.delete_entity(obj[i])
-		end
-	end
-	streaming.set_model_as_no_longer_needed(gameplay.get_hash_key("h4_prop_grass_wiregrass_01"))
 end
 
 --\\Railgun kill loop func
