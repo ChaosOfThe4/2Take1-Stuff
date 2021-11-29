@@ -5,12 +5,11 @@ local Root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 
 
 local pedLocals = player.get_player_ped(player.player_id())
-local req, opt, popt, Paths, data, kick_param, kick_param_data = {}, {}, {}, {}, {}, {}, {}
-Paths.Root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
-Paths.kickdata = Paths.Root  .. "\\scripts\\WB_cfg\\WB_Kicks.ini"
-Paths.kickparam = Paths.Root .. "\\scripts\\WB_cfg\\WB_KickParam.ini"
-Functions = Paths.Root .. "\\scripts\\WB_cfg\\WB_Functions.lua"
+lastNotify = 0
 
+req, opt, popt, Paths, data, kick_param, kick_param_data, vehicleNearByStorage= {}, {}, {}, {}, {}, {}, {}, {}
+
+--\\Array of all guns because yes
 guns = {
    "0x92A27487",
     "0x958A4A8F",
@@ -108,6 +107,60 @@ guns = {
     "0xBA536372"
   }
 
+--\\Array of se I found on github
+tbl_RemoteEvents={
+	575344561,
+	-588744584,
+	59352546,
+	600486780,
+	608132931,
+	-609583028,
+	627052233,
+	-639979452,
+	649952111
+}
+
+--\\Se array
+seKicks={
+	2092565704,
+	1964309656,
+	696123127,
+	43922647,
+	600486780,
+	1954846099,
+	153488394,
+	1249026189,
+	515799090,
+	515799090,
+	-1813981910,
+	202252150,
+	-19131151,
+   	-635501849,
+	1964309656,
+	-988842806,
+	-2043109205,
+	1926582096
+}
+
+--\\Array for amount of rc veh to send because laziness
+Objs = {
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"10"
+}
+
+Paths.Root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
+Paths.kickdata = Paths.Root  .. "\\scripts\\WB_cfg\\WB_Kicks.ini"
+Paths.kickparam = Paths.Root .. "\\scripts\\WB_cfg\\WB_KickParam.ini"
+Functions = Paths.Root .. "\\scripts\\WB_cfg\\WB_Functions.lua"
+
 opt.opption = menu.add_feature("Alt Godmode/OTR","parent",breakerMenuMain).id
 opt.wopption = menu.add_feature("Weapon Options","parent",breakerMenuMain).id
 opt.sopption = menu.add_feature("WB Settings","parent",breakerMenuMain).id
@@ -116,11 +169,6 @@ popt.opption = menu.add_player_feature("Crashes/Kicks","parent",breakerMenu).id
 popt.loops = menu.add_player_feature("Malicious Loops","parent",breakerMenu).id
 popt.trolls = menu.add_player_feature("All Trolls","parent",breakerMenu).id
 popt.attach = menu.add_player_feature("Attachment Trolling","parent",breakerMenu).id
-
-
-vehicleNearByStorage = {}
-lastNotify = 0
-
 
 
 
@@ -164,21 +212,9 @@ end
 return ParaMs
 end
 
-menu.add_player_feature("Invalid World Object Attachment", "action", popt.opption, function(playerfeat, pid)
-	menu.create_thread(IWOAttatch, {pid = pid})
-end)
-
-
+--\\Wades crash because fuck you
 menu.add_player_feature("Ped Pool Fill Crash", "action", popt.opption, function(k,pid)
 	menu.create_thread(pedFill, {pid = pid})
-end)
-
-menu.add_player_feature("Give Pizza", "action", popt.opption, function(val, pid)
-	streaming.request_model(gameplay.get_hash_key("prop_pizza_box_03"))
-	wrld = object.create_world_object(gameplay.get_hash_key("prop_pizza_box_03"), player.get_player_coords(pid), true, false)
-	system.wait(10000)
-	entity.delete_entity(wrld)
-
 end)
 
 function Osiris_kick(pid)
@@ -192,17 +228,18 @@ function osiris_kick_v4(pid)
 script.trigger_script_event(-720040631, pid, {}) script.trigger_script_event(1033875141, pid, {-17645264, -26800537, -66094971, -45281983, -24450684, -13000488, 59643555, 34295654, 91870118, -3283691}) script.trigger_script_event(-81613951, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-1292453789, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(1623637790, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-1905128202, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(1160415507, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-2120750352, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(0xe6116600, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) system.wait(50) script.trigger_script_event(-922075519, pid, {pid, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1}) script.trigger_script_event(-1975590661, pid, {84857178, 61749268, -80053711, -78045655, 56341553, -78686524, -46044922, -22412109, 29388428, -56335450}) local pos = v3() pos = player.get_player_coords(pid) pos.x = math.floor(pos.x) pos.y = math.floor(pos.y) pos.z = math.floor(pos.z) script.trigger_script_event(-1975590661, pid, {pid, pos.x, pos.y, pos.z, 0, 0, 2147483647, 0, script.get_global_i(1590682 + (pid * 883) + 99 + 28), 1}) script.trigger_script_event(-1975590661, pid, {pid, pos.x, pos.y, pos.z, 0, 0, 1000, 0, script.get_global_i(1590682 + (pid * 883) + 99 + 28), 1}) script.trigger_script_event(-2122716210, pid, {91645, -99683, 1788, 60877, 55085, 72028}) script.trigger_script_event(-2120750352, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-2122716210, pid, {91645, -99683, 1788, 60877, 55085, 72028}) script.trigger_script_event(0xE6116600, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) system.wait(50) script.trigger_script_event(0xB0886E20, pid, {0, 30583, 0, 0, 0, 1061578342, 1061578342, 4}) script.trigger_script_event(0xB0886E20, pid, {0, 30583, 0, 0, 0, 1061578342, 1061578342, 4}) script.trigger_script_event(0x9DB77399, pid, {50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 999999999999999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}) script.trigger_script_event(0x9DB77399, pid, {50, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 999999999999999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}) script.trigger_script_event(0xB0886E20, pid, {-1, 0, 0, 0}) script.trigger_script_event(0xB0886E20, pid, {0, -1, -1, 0}) script.trigger_script_event(0x9DB77399, pid, {-1, 0, -1, 0}) script.trigger_script_event(0xF5CB92DB, pid, {0, 0, 46190868, 0, 2}) script.trigger_script_event(0xF5CB92DB, pid, {46190868, 0, 46190868, 46190868, 2}) script.trigger_script_event(0xF5CB92DB, pid, {1337, -1, 1, 1, 0, 0, 0}) script.trigger_script_event(0xF5CB92DB, pid, {pid, 1337, -1, 1, 1, 0, 0, 0})
 end
 
+--\\Osiris script kicks
 menu.add_player_feature("Osiris Kick", "action", popt.opption, function(feat, pid)
-    Osiris_kick(pid)
+    --Osiris_kick(pid)
 	osiris_kick_v4(pid)
 end)
 
+--\\2t1Revive crash
 menu.add_player_feature("Revive Crash", "action", popt.opption, function(feat, pid)
     script.trigger_script_event(-2043109205, pid, {0, 0, 30583, 0, 0, 0, -328966, -1933210564, 0})
 end)
 
-
-
+--\\Moist se kick
 menu.add_player_feature("Moist Kick v1", "action", popt.opption, function(feat, pid)
 
         script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
@@ -211,6 +248,7 @@ menu.add_player_feature("Moist Kick v1", "action", popt.opption, function(feat, 
 
 end)
 
+--\\Moist se kick
 menu.add_player_feature("Moist Kick v2", "action", popt.opption, function(feat, pid)
     script.trigger_script_event(0x1d97a038, pid, {0, 0, 46190868, 0, 2})
     script.trigger_script_event(0x51ac3568, pid, {46190868, 0, 46190868, 46190868, 2})
@@ -228,6 +266,7 @@ menu.add_player_feature("Moist Kick v2", "action", popt.opption, function(feat, 
     script.trigger_script_event(0xb939987b, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
 end)
 
+--\\Moist se crash
 menu.add_player_feature("Modder Crash (M)", "action", popt.opption, function(feat, pid)
 
         script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
@@ -259,7 +298,7 @@ menu.add_player_feature("Modder Crash (M)", "action", popt.opption, function(fea
 
 end)
 
-
+--\\Moist script host crash
 menu.add_player_feature("Script Host Crash Kick (M)", "action", popt.opption, function(feat, pid)
         local SE_ARGS = build_params(20)
 			system.wait(800)
@@ -270,19 +309,7 @@ menu.add_player_feature("Script Host Crash Kick (M)", "action", popt.opption, fu
 
 end)
 
-
-tbl_RemoteEvents={
-	575344561,
-	-588744584,
-	59352546,
-	600486780,
-	608132931,
-	-609583028,
-	627052233,
-	-639979452,
-	649952111,
-
-}
+--\\More se I found and it works somehow
 menu.add_player_feature("SE Kick 2", "action", popt.opption, function(feat, pid)
 	if feat.on then
 		--player.unset_player_as_modder(pid, -1)
@@ -303,51 +330,30 @@ menu.add_player_feature("SE Kick 2", "action", popt.opption, function(feat, pid)
 	end
 end)
 
+--\\Moist se script host kick
 menu.add_player_feature("ScriptHost Fuckarino (M)", "toggle", popt.opption, function(feat, pid)
-if feat.on then
-	if player.is_player_valid(pid) then
-		script.trigger_script_event(-877212109, pid, {91645, -99683, 1788, 60877, 55085, 72028})
-		script.trigger_script_event(-877212109, pid, {91645, -99683, 1788, 60877, 55085, 72028})
-		script.trigger_script_event(0x7cba04c8, pid, {pid, script.get_global_i(1630816 + (1 + (7 * 597)) + 508)})
-		script.trigger_script_event(-877212109, pid, {-1, 500000, 849451549, -1, -1})
-		script.trigger_script_event(315658550, pid, {-1, 500000, 849451549, -1, -1})
-		script.trigger_script_event(-877212109, pid, {-1139568479, -1, 1, 100099})
-		script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-		script.trigger_script_event(-877212109, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-		script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-		system.yield(350)
+	if feat.on then
+		if player.is_player_valid(pid) then
+			script.trigger_script_event(-877212109, pid, {91645, -99683, 1788, 60877, 55085, 72028})
+			script.trigger_script_event(-877212109, pid, {91645, -99683, 1788, 60877, 55085, 72028})
+			script.trigger_script_event(0x7cba04c8, pid, {pid, script.get_global_i(1630816 + (1 + (7 * 597)) + 508)})
+			script.trigger_script_event(-877212109, pid, {-1, 500000, 849451549, -1, -1})
+			script.trigger_script_event(315658550, pid, {-1, 500000, 849451549, -1, -1})
+			script.trigger_script_event(-877212109, pid, {-1139568479, -1, 1, 100099})
+			script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			script.trigger_script_event(-877212109, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			system.yield(350)
+		end		
 	end
-			
-
-end
 end)
 
-seKicks={
-	2092565704,
-	1964309656,
-	696123127,
-	43922647,
-	600486780,
-	1954846099,
-	153488394,
-	1249026189,
-	515799090,
-	515799090,
-	-1813981910,
-	202252150,
-	-19131151,
-   	-635501849,
-	1964309656,
-	-988842806,
-	-2043109205,
-	1926582096
-}
-
+--\\List of random se I found (mostly kicks)
 local smart = menu.add_player_feature("Smart Se Spam", "toggle", popt.opption, function(feat, pid)
 	menu.create_thread(customSES, {val = feat, id = pid})
 end)
 
-
+--\\Moist se spam
 menu.add_player_feature("Kick Data 1 Type 1 (M)", "toggle", popt.opption, function(feat, pid)
 	if feat.on then
 		--player.unset_player_as_modder(pid, -1)
@@ -368,6 +374,7 @@ menu.add_player_feature("Kick Data 1 Type 1 (M)", "toggle", popt.opption, functi
 	end
 end)
 
+--\\Moist se spam
 menu.add_player_feature("Kick Data 1 Type 2 (M)", "toggle", popt.opption, function(feat, pid)
 	if feat.on then
 		for i = 1, #data do
@@ -388,24 +395,26 @@ menu.add_player_feature("Kick Data 1 Type 2 (M)", "toggle", popt.opption, functi
 	end
 end)
 
+--\\Took netbail se from keks and made work here
 menu.add_player_feature("Netbail Kick", "action", popt.opption, function(feat, pid)
 	netbail(pid)
 end)
 
-
-
+--\\This from somewhere idk if it works
 menu.add_player_feature('Block - Passive', "action", popt.trolls, function(f, pid)
         script.trigger_script_event(1472357458, pid, {1, nil})
 		script.trigger_script_event(1472357458, pid, {1, nil})
         menu.notify('Blocked Player from activating Passive.', 10, 2)
     end)
 
+--\\This from somewhere idk if it works
 menu.add_player_feature('UN-Block - Passive', "action", popt.trolls, function(f, pid)
         script.trigger_script_event(1472357458, pid, {2, nil})
 		script.trigger_script_event(1472357458, pid, {0, nil})
         menu.notify('UN-Blocked Player from Passive.', 10, 2)
     end)
 
+--\\Take player weapons was gonna be more but r* big gay
 menu.add_player_feature("Peaceful Player", "action", popt.trolls, function(playerfeat, pid)
 	if true then 
 		local pos = player.get_player_coords(pid)
@@ -429,7 +438,7 @@ menu.add_player_feature("Peaceful Player", "action", popt.trolls, function(playe
 	end
 end)
 
-
+--\\Using cage model I found because I have no friends
 menu.add_player_feature("Cage 'Em", "action", popt.trolls, function(val, pid)
 	ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
 	system.wait(0)
@@ -438,7 +447,7 @@ menu.add_player_feature("Cage 'Em", "action", popt.trolls, function(val, pid)
 end)
 
 
-
+--\\Stole rimurus hitsquad and did not update :)
 menu.add_player_feature("Send Hit Squad", "action", popt.trolls, function(playerfeat, pid)
     local hash = gameplay.get_hash_key("s_m_y_xmech_02")
       
@@ -464,19 +473,7 @@ menu.add_player_feature("Send Hit Squad", "action", popt.trolls, function(player
 	end
 end)
 
-
-Objs = {
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10"
-}
+--\\Send rc banditos and blow up because I am cool and did all the rc vehicles
 menu.add_player_feature("Stand Lua", "action_value_str", popt.trolls, function(val, pid)
 	local num = Objs[val.value+1]
 	local boomed = 0
@@ -506,7 +503,9 @@ menu.add_player_feature("Stand Lua", "action_value_str", popt.trolls, function(v
 	end
 end):set_str_data(Objs)
 
+
 blamed = player.player_id()
+--\\Send rc banditos blow them up and self blame because I am cool and did all the rc vehicles
 menu.add_player_feature("Stand Lua Blamed: ", "action_value_str", popt.trolls, function(val, pid)
 	local num = Objs[val.value+1]
 	local boomed = 0
@@ -530,6 +529,7 @@ menu.add_player_feature("Stand Lua Blamed: ", "action_value_str", popt.trolls, f
 	end
 end):set_str_data(Objs)
 
+--\\Send rc tanks because I am cool and did all the rc vehicles
 menu.add_player_feature("Send RC Tanks: ", "action_value_str", popt.trolls, function(val, pid)
 	local num = Objs[val.value+1]
 	cars = {}
@@ -553,13 +553,14 @@ menu.add_player_feature("Send RC Tanks: ", "action_value_str", popt.trolls, func
 end):set_str_data(Objs)
 
 
-
+--\\Manual update button for playerlist
 menu.add_player_feature("Update Players", "action", popt.trolls, function()
 	PlayerArray()
 	--orbital:set_str_data(Playerz)
 	menu.notify("Playerlist Updated", "Update", 5, 2)
 end)
 
+--\\Orbital strike from moist updated to work with playerlist
 orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
 	local pos = v3()
 	pped = player.get_player_ped(pid)
@@ -624,6 +625,7 @@ orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str"
 	PlayerArray()
 end)
 
+--\\Function and array for player list
 Playerz = {}
 function PlayerArray()
 	Playerz = {}
@@ -637,6 +639,7 @@ function PlayerArray()
 end
 PlayerArray()
 
+--\\Event listeners for auto updating player list like a boss
 event.add_event_listener("player_join", function ()
 	Playerz = {}
 	for pid = 0, 31 do
@@ -648,6 +651,7 @@ event.add_event_listener("player_join", function ()
 	--return Playerz
 end)
 
+--\\Event listeners for auto updating player list like a boss
 event.add_event_listener("player_leave", function ()
 	Playerz = {}
 	for pid = 0, 31 do
@@ -659,24 +663,6 @@ event.add_event_listener("player_leave", function ()
 	--return Playerz
 end)
 
-local optroll = menu.add_player_feature("Opressor Troll", "toggle", popt.trolls, function(feat, pid)
-	menu.create_thread(cartroll, {feat = feat, pid = pid})
-end)
-optroll.threaded=true
-
-menu.add_player_feature("Turn Vehicle Engine Off", "action", popt.trolls, function(playerfeat, pid)
-    local player_veh = ped.get_vehicle_ped_is_using(player.get_player_ped(pid))
-    if (player.is_player_in_any_vehicle(pid)) then
-        menu.notify("Turned the engine in " .. player.get_player_name(pid) .. "'s " .. vehicle.get_vehicle_model(player_veh) .. " off.", "", 10, 2)
-        vehicle.set_vehicle_engine_on(player_veh, false, true, true)
-		system.wait(6000)
-		vehicle.set_vehicle_engine_on(player_veh, true, true, true)
-        --set_vehicle_engine_on(Vehicle veh, bool toggle, bool instant, bool noAutoTurnOn)
-        --ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
-    else
-        menu.notify(player.get_player_name(pid) .. " is not in a vehicle", "", 10, 2)
-    end
-end)
 
 menu.add_player_feature("Ragdoll Player", "action", popt.trolls, function(playerfeat, pid)
     local pos_start = player.get_player_coords(pid)
@@ -686,17 +672,12 @@ menu.add_player_feature("Ragdoll Player", "action", popt.trolls, function(player
     pos_end.x = pos_end.x + 1
     gameplay.shoot_single_bullet_between_coords(pos_start, pos_end, 0, 0xAF3696A1, pid, false, false, 1)
 end)
-
-menu.add_player_feature("Haunting", "action", popt.trolls, function(feat, pid)
-	local pos = entity.get_entity_coords(player.get_player_ped(pid))
-	local v2 = v2(pos.x + 5, pos.y)
-	scriptdraw.draw_sprite(4248792428, v2, 5.0, pos.z, 414116734)
-end)
 		
-local cargo = menu.add_player_feature("Lag with Cargos", "toggle", popt.loops, function(feat, pid)            
+		
+--\\Toggle Options below
+menu.add_player_feature("Lag with Cargos", "toggle", popt.loops, function(feat, pid)            
 	menu.create_thread(cargos, {feat = feat, pid = pid})
 end)
-cargo.threaded=true
 
 local subb = menu.add_player_feature("Lag with Subs", "toggle", popt.loops, function(feat, pid)            
 	menu.create_thread(subs, {feat = feat, pid = pid})
@@ -727,6 +708,8 @@ local rgun = menu.add_player_feature("Railgun kill loop", "toggle", popt.loops, 
     menu.create_thread(rgun, {feat = feat, pid = pid})
 end)
 
+
+--\\Attachment Options below
 menu.add_player_feature("Burn The Target", "action", popt.attach, function(playerfeat, pid)
 
     local playerped3 = player.get_player_ped(pid)
@@ -784,84 +767,27 @@ menu.add_player_feature("Gas Pump Man", "action", popt.attach, function(playerfe
     entity.attach_entity_to_entity(attach_object1132, playerped3, 0, pos, pos, true, true, false, 0, false)
 end)
 
-local safe = menu.add_player_feature("Safe Space(anti-crash-cam)", "toggle", 0, function(feat)
-    location = player.get_player_coords(player.player_id()) --save location
-    menu.notify("Here is safe space!", "", 1, 190)
-    entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(-75, -818, 326)) --mazebank
-    system.yield(10)
-    while feat.on do
-      entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), v3(-8292.664, -4596.8257, 14358.0))--safe space
-      system.yield(1000)
-    end
-    if feat.on == false then
-      menu.notify("Wait a sec", "", 2, 190)
-    end
-    system.yield(10)
-    entity.set_entity_coords_no_offset(player.get_player_ped(player.player_id()), location)
-end)
-safe.threaded=true
 
-local otr = menu.add_feature("Undetected OTR", "toggle", opt.opption, function(feat)
-    if feat.on then
-		ped.set_ped_max_health(pedLocals,  0)
-	else
-		ped.set_ped_max_health(pedLocals, 328)
-		ped.set_ped_health(pedLocals, 328)
-	end
-	return HANDLER_POP
+--\\Self Options below
+menu.add_player_feature("Safe Space(anti-crash-cam)", "toggle", 0, function(feat)
+	menu.create_thread(safespace, {feat = feat})
 end)
-otr.threaded=true
 
-local health = menu.add_feature("Health Mod god mode", "toggle", opt.opption, function(feat)
-    if feat.on then
-        ped.set_ped_max_health(pedLocals, 1000000)
-		ped.set_ped_health(pedLocals,  1000000)
-	else
-		ped.set_ped_max_health(pedLocals, 328)
-		ped.set_ped_health(pedLocals, 328)
-	end
-    return HANDLER_POP
+menu.add_feature("Undetected OTR", "toggle", opt.opption, function(feat)
+	menu.create_thread(easyOTR, {feat = feat})
 end)
-health.threaded=true
 
-local fire = menu.add_feature("Fire Ammo", "toggle", opt.wopption, function(feat)
-	if feat.on then
-		weapon.give_weapon_component_to_ped(pedLocals, 0xA914799, 0xEC0F617)
-        pped = player.get_player_ped(player.player_id())
-		return HANDLER_CONTINUE
-    else
-		weapon.give_weapon_component_to_ped(pedLocals, 0xA914799, 0x89EBDAA7)
-        return HANDLER_CONTINUE
-	end
-    return HANDLER_POP
+menu.add_feature("Health Mod god mode", "toggle", opt.opption, function(feat)
+	menu.create_thread(easyGM, {feat = feat})
 end)
-fire.threaded=true
 
-local quick = menu.add_feature("Quick Explosives", "toggle", opt.wopption, function(feat)
-	if feat.on then
-        pped = player.get_player_ped(player.player_id())
-		if player.get_player_vehicle(pped) == 143113 then
-			system.wait(10)
-		else
-			if ped.is_ped_shooting(pped) then
-				if ped.get_current_ped_weapon(pped) == 2726580491 then
-					weapon.remove_weapon_from_ped(pped, 2726580491)
-					weapon.give_delayed_weapon_to_ped(pped, 2726580491, 0, 1)
-				end
-				system.wait(1)
-				if ped.get_current_ped_weapon(pped) == 1672152130 then
-					weapon.remove_weapon_from_ped(pped, 1672152130)
-					weapon.give_delayed_weapon_to_ped(pped, 1672152130, 0, 1)
-				end
-			end
-		end
-		return HANDLER_CONTINUE
-    else
-        return HANDLER_CONTINUE
-	end
-    return HANDLER_POP
+menu.add_feature("Fire Ammo", "toggle", opt.wopption, function(feat)
+	menu.create_thread(fireSniper, {feat = feat})
 end)
-quick.threaded=true
+
+menu.add_feature("Quick Explosives", "toggle", opt.wopption, function(feat)
+	menu.create_thread(quickSwap, {feat = feat})
+end)
 
 menu.add_feature("Teleport Forward", "action", opt.util, function()
 	local pos = player.get_player_coords(blamed)
@@ -879,6 +805,15 @@ host = menu.add_feature("Auto Take Host", "toggle", opt.sopption, function(feat)
 end)
 
 host.on= true
+
+gmCheck = menu.add_feature("Check for Godmode/OTR", "toggle", opt.sopption, function(feat)
+	while feat.on do
+		menu.create_thread(pedHealthCheck, {})
+		system.wait(15000)
+	end
+end)
+
+gmCheck.on = true
 
 function dec2ip(decip)
 local div, quote, ip;
