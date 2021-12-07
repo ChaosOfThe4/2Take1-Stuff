@@ -560,6 +560,18 @@ menu.add_player_feature("Update Players", "action", popt.trolls, function()
 	menu.notify("Playerlist Updated", "Update", 5, 2)
 end)
 
+--\\Blame explode as anyone
+explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
+	pped = player.get_player_ped(pid)
+	pos = entity.get_entity_coords(pped)
+	for i = 0, 31 do
+		if player.is_player_valid(i) and Playerz[val.value + 1] == player.get_player_name(i) then
+			myped = player.get_player_ped(i)
+			fire.add_explosion(pos, 72, true, false, 1500, myped)
+		end
+	end
+end)
+
 --\\Orbital strike from moist updated to work with playerlist
 orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
 	local pos = v3()
@@ -635,6 +647,8 @@ function PlayerArray()
 		end
 	end
 	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	sniper:set_str_data(Playerz)
 	--return Playerz
 end
 PlayerArray()
@@ -648,6 +662,8 @@ event.add_event_listener("player_join", function ()
 		end
 	end
 	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	sniper:set_str_data(Playerz)
 	--return Playerz
 end)
 
@@ -660,6 +676,8 @@ event.add_event_listener("player_leave", function ()
 		end
 	end
 	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	sniper:set_str_data(Playerz)
 	--return Playerz
 end)
 
