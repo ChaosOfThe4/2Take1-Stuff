@@ -212,6 +212,14 @@ end
 return ParaMs
 end
 
+
+--\\Random choice spam of like 60+ invalid objs because fuck you
+menu.add_player_feature("Invalid World Object Spam", "action", popt.opption, function(playerfeat, pid)
+	for i = 1, 5 do  
+		menu.create_thread(IWOSpam, {pid = pid})
+	end
+end)
+
 --\\Wades crash because fuck you
 menu.add_player_feature("Ped Pool Fill Crash", "action", popt.opption, function(k,pid)
 	menu.create_thread(pedFill, {pid = pid})
