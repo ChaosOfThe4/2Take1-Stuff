@@ -515,6 +515,57 @@ function cartroll(context)
 	end
 end
 
+--\\Lel crash shit
+function IWOSpam(context)
+	local kek = {
+		2040219850,
+		1759812941,
+		1727217687,
+		386259036,
+		3726116795,
+		3301528862,
+		1567950121,
+		3303982422,
+		3063601656,
+		29828513,
+		2180726768,
+		2041844081,
+		2494305715,
+		671173206,
+		3769155529,
+		978689073,
+		100436592,
+		3107991431,
+		1327834842,
+		450174759,
+		3613262246,
+		3476535839,
+		1734157390
+	}
+	local pid = context.pid
+	local pos = player.get_player_coords(pid)
+	local list = {}
+	local numb = math.random(4, 11)
+	--menu.notify("You will be teleported near the player, look away ASAP", "IWO Crash", 10, 2)
+	--entity.set_entity_coords_no_offset(pedLocals, v3(pos.x + 5, pos.y + 5, pos.z))
+	---system.wait(5000)
+	for i=1, numb do
+		local tool = kek[math.random(1, #kek)]
+		streaming.request_model(tool)
+		system.wait(500)
+		
+		ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
+		list[#list+1] = object.create_world_object(tool, pos + v3(0, 0, 1), true, false)
+		entity.set_entity_coords_no_offset(list[#list], v3(pos.x, pos.y, pos.z + 1))
+		entity.set_entity_heading(list[#list], player.get_player_heading(pid))
+		menu.notify("Crash Sent, Do Not Look At The Player", "IWO Spam", 10, 2)
+	end
+		system.wait(15000)
+	for e = 1, #list do 
+		entity.delete_entity(list[e])
+	end
+end
+
 --\\Netbail kick 
 function netbail(pid)
 	local par = script.get_global_i(1630816 + (1 + (pid * 597) + 508))
