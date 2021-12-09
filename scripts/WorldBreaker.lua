@@ -213,11 +213,21 @@ return ParaMs
 end
 
 
---\\Random choice spam of like 60+ invalid objs because fuck you
+--\\Random choice spam of like 60+ invalid objs because fuck you  \\ Took out some for public because fuck you I spawned 12.6k objs to find them you put in some work
 menu.add_player_feature("Invalid World Object Spam", "action", popt.opption, function(playerfeat, pid)
 	for i = 1, 5 do  
 		menu.create_thread(IWOSpam, {pid = pid})
 	end
+end)
+
+--\\Se I found somehow works
+menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
+	for i = 1, 2 do 
+			system.yield(50)
+		script.trigger_script_event(696123127, pid, {pid, math.random(-2147483647, 2147483647), pid})
+			system.yield(50)
+	end
+	menu.notify("Script event kicks sent", "SE Kick", 10, 2)
 end)
 
 --\\Wades crash because fuck you
