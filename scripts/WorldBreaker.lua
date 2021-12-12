@@ -107,41 +107,6 @@ guns = {
     "0xBA536372"
   }
 
---\\Array of se I found on github
-tbl_RemoteEvents={
-	575344561,
-	-588744584,
-	59352546,
-	600486780,
-	608132931,
-	-609583028,
-	627052233,
-	-639979452,
-	649952111
-}
-
---\\Se array
-seKicks={
-	2092565704,
-	1964309656,
-	696123127,
-	43922647,
-	600486780,
-	1954846099,
-	153488394,
-	1249026189,
-	515799090,
-	515799090,
-	-1813981910,
-	202252150,
-	-19131151,
-   	-635501849,
-	1964309656,
-	-988842806,
-	-2043109205,
-	1926582096
-}
-
 --\\Array for amount of rc veh to send because laziness
 Objs = {
 	"1",
@@ -163,6 +128,8 @@ Functions = Paths.Root .. "\\scripts\\WB_cfg\\WB_Functions.lua"
 
 opt.opption = menu.add_feature("Alt Godmode/OTR","parent",breakerMenuMain).id
 opt.wopption = menu.add_feature("Weapon Options","parent",breakerMenuMain).id
+opt.grief = menu.add_feature("Lobby Griefing - Beta","parent",breakerMenuMain).id
+opt.recovery = menu.add_feature("Recoveries - Beta","parent",breakerMenuMain).id
 opt.sopption = menu.add_feature("WB Settings","parent",breakerMenuMain).id
 opt.util = menu.add_feature("Utilities","parent",breakerMenuMain).id
 popt.opption = menu.add_player_feature("Crashes/Kicks","parent",breakerMenu).id
@@ -212,22 +179,16 @@ end
 return ParaMs
 end
 
-
---\\Random choice spam of like 60+ invalid objs because fuck you  \\ Took out some for public because fuck you I spawned 12.6k objs to find them you put in some work
+--\\Random choice spam of like 60+ invalid objs because fuck you
 menu.add_player_feature("Invalid World Object Spam", "action", popt.opption, function(playerfeat, pid)
 	for i = 1, 5 do  
 		menu.create_thread(IWOSpam, {pid = pid})
 	end
 end)
 
---\\Se I found somehow works
-menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
-	for i = 1, 2 do 
-			system.yield(50)
-		script.trigger_script_event(696123127, pid, {pid, math.random(-2147483647, 2147483647), pid})
-			system.yield(50)
-	end
-	menu.notify("Script event kicks sent", "SE Kick", 10, 2)
+--\\All the slods because wtf atomic why the random peds
+menu.add_player_feature("Supple Slods", "action", popt.opption, function(val, pid)
+	menu.create_thread(slods, {pid = pid})
 end)
 
 --\\Wades crash because fuck you
@@ -235,6 +196,22 @@ menu.add_player_feature("Ped Pool Fill Crash", "action", popt.opption, function(
 	menu.create_thread(pedFill, {pid = pid})
 end)
 
+--\\Cherax is actual dogshit  I think it is patched but fuck you pizza crash is better than you
+menu.add_player_feature("Give Pizza", "action", popt.opption, function(val, pid)
+	hash = gameplay.get_hash_key("prop_pizza_box_03")
+	count = 0
+    streaming.request_model(hash)
+    while count <= 15 do
+        system.wait(1000)
+		count = count + 1
+    end
+	wrld = object.create_world_object(gameplay.get_hash_key("prop_pizza_box_03"), player.get_player_coords(pid), true, false)
+	system.wait(10000)
+	entity.delete_entity(wrld)
+
+end)
+
+--\\Deleted the ones I have checked (reason: homslice just copied our se crash protex)
 function osiris_kick_v2(pid)
 if network.network_is_host(player.player_id()) then
 network.network_session_kick_player(pid)
@@ -324,25 +301,14 @@ menu.add_player_feature("Script Host Crash Kick (M)", "action", popt.opption, fu
 
 end)
 
---\\More se I found and it works somehow
-menu.add_player_feature("SE Kick 2", "action", popt.opption, function(feat, pid)
-	if feat.on then
-		--player.unset_player_as_modder(pid, -1)
-		for i = 1, #tbl_RemoteEvents do
-			par1 = kick_param_data[math.random(1, #kick_param_data)]
-			par2 = kick_param_data[math.random(1, #kick_param_data)]
-			par3 = kick_param_data[math.random(1, #kick_param_data)]
-			par4 = kick_param_data[math.random(1, #kick_param_data)]
-			par5 = kick_param_data[math.random(1, #kick_param_data)]
-			par6 = kick_param_data[math.random(1, #kick_param_data)]
-				system.yield(50)
-			script.trigger_script_event(tbl_RemoteEvents[i], pid, {par3, par5, par2, par3, par2, par1, par3, par1})
-				system.yield(50)
-			script.trigger_script_event(tbl_RemoteEvents[i], pid, {par1, par4, par3, par5, par6, par2, par3, par2, par1, par3, par1})
-				system.yield(50)
-		end
-		menu.notify("Script event kicks sent", "SE Test", 10, 2)
+--\\Se I found somehow works
+menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
+	for i = 1, 2 do 
+			system.yield(50)
+		script.trigger_script_event(696123127, pid, {pid, math.random(-2147483647, 2147483647), pid})
+			system.yield(50)
 	end
+	menu.notify("Script event kicks sent", "SE Kick", 10, 2)
 end)
 
 --\\Moist se script host kick
@@ -362,6 +328,7 @@ menu.add_player_feature("ScriptHost Fuckarino (M)", "toggle", popt.opption, func
 		end		
 	end
 end)
+
 
 --\\List of random se I found (mostly kicks)
 local smart = menu.add_player_feature("Smart Se Spam", "toggle", popt.opption, function(feat, pid)
@@ -410,7 +377,7 @@ menu.add_player_feature("Kick Data 1 Type 2 (M)", "toggle", popt.opption, functi
 	end
 end)
 
---\\Took netbail se from keks and made work here
+--\\Took netbail se from keks and make work here
 menu.add_player_feature("Netbail Kick", "action", popt.opption, function(feat, pid)
 	netbail(pid)
 end)
@@ -462,13 +429,14 @@ menu.add_player_feature("Cage 'Em", "action", popt.trolls, function(val, pid)
 end)
 
 
---\\Stole rimurus hitsquad and did not update :)
+--\\Stole rimurus hitsquad and di not update :)
 menu.add_player_feature("Send Hit Squad", "action", popt.trolls, function(playerfeat, pid)
     local hash = gameplay.get_hash_key("s_m_y_xmech_02")
-      
+    count = 0
     streaming.request_model(hash)
-    while (not streaming.has_model_loaded(hash)) do
-        system.wait(0)
+    while count <= 15 do
+        system.wait(1000)
+		count = count + 1
     end
       
     for i = 1, 10 do
@@ -553,9 +521,10 @@ menu.add_player_feature("Send RC Tanks: ", "action_value_str", popt.trolls, func
 	for i = 1, #cars do
 		while ped.get_ped_health(player.get_player_ped(pid)) > 0 do
 			system.wait(500)
-			local pos1 = player.get_player_coords(pid)
+			local pos1 = player.get_player_coords(context.pid)
 			local poss = v3(pos1.x + 20, pos1.y + 20, pos1.z + 50)
 			local bpos = entity.get_entity_coords(cars[i])
+			menu.notify("Tank Sent", "Stand", 5, 2)
 			if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
 				ai.task_vehicle_shoot_at_ped(drivers[i], player.get_player_ped(pid), 100.0)
 
@@ -575,14 +544,17 @@ menu.add_player_feature("Update Players", "action", popt.trolls, function()
 	menu.notify("Playerlist Updated", "Update", 5, 2)
 end)
 
---\\Blame explode as anyone
 explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
+	menu.create_thread(boom, {val = val, pid = pid})
+end)
+
+sniper = menu.add_player_feature("Sniper Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
 	pped = player.get_player_ped(pid)
 	pos = entity.get_entity_coords(pped)
 	for i = 0, 31 do
 		if player.is_player_valid(i) and Playerz[val.value + 1] == player.get_player_name(i) then
 			myped = player.get_player_ped(i)
-			fire.add_explosion(pos, 72, true, false, 1500, myped)
+			gameplay.shoot_single_bullet_between_coords(pos, pos + v3(0, 0, 1), 100000.0, 0x5FC3C11, myped, true, false, 10000.0)
 		end
 	end
 end)
@@ -652,51 +624,15 @@ orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str"
 	PlayerArray()
 end)
 
---\\Function and array for player list made by GhostOne
-Playerz = {}
-function PlayerArray()
-	Playerz = {}
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) then 
-			table.insert(Playerz, player.get_player_name(pid))
-		end
-	end
-	orbital:set_str_data(Playerz)
-	explode:set_str_data(Playerz)
-	sniper:set_str_data(Playerz)
-	--return Playerz
-end
-PlayerArray()
-
---\\Event listeners for auto updating player list like a boss
-event.add_event_listener("player_join", function ()
-	Playerz = {}
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) then 
-			table.insert(Playerz, player.get_player_name(pid))
-		end
-	end
-	orbital:set_str_data(Playerz)
-	explode:set_str_data(Playerz)
-	sniper:set_str_data(Playerz)
-	--return Playerz
+--\\Idk what this even will do but if you spectage and they shoot a rocket you crash so that is cool.
+menu.add_player_feature("Opressor Troll - Beta", "toggle", popt.trolls, function(feat, pid)
+	menu.notify("Do Not Spectate You Will Crash", "BETA", 5, 2)
+	menu.notify("10 second wait before starting to disable", "BETA", 5, 2)
+	system.wait(12000)
+	menu.create_thread(cartroll, {feat = feat, pid = pid})
 end)
 
---\\Event listeners for auto updating player list like a boss
-event.add_event_listener("player_leave", function ()
-	Playerz = {}
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) then 
-			table.insert(Playerz, player.get_player_name(pid))
-		end
-	end
-	orbital:set_str_data(Playerz)
-	explode:set_str_data(Playerz)
-	sniper:set_str_data(Playerz)
-	--return Playerz
-end)
-
-
+--\\Ragdoll player str8 from troll menu because I was hoping for more but it worked.
 menu.add_player_feature("Ragdoll Player", "action", popt.trolls, function(playerfeat, pid)
     local pos_start = player.get_player_coords(pid)
     local pos_end = player.get_player_coords(pid)
@@ -708,20 +644,23 @@ end)
 		
 		
 --\\Toggle Options below
+
+--\\Lag people with cargos spawn
 menu.add_player_feature("Lag with Cargos", "toggle", popt.loops, function(feat, pid)            
 	menu.create_thread(cargos, {feat = feat, pid = pid})
 end)
 
+--\\Lag people with subs spawn
 local subb = menu.add_player_feature("Lag with Subs", "toggle", popt.loops, function(feat, pid)            
 	menu.create_thread(subs, {feat = feat, pid = pid})
 end)
 
-
+--\\Lag people with invisible veh spawn (meant to bypass protex)
 local invis = menu.add_player_feature("Lag with invisible veh", "toggle", popt.loops, function(feat, pid)
 	menu.create_thread(invis, {feat = feat, pid = pid})
 end)
 
-
+--\\I am big dumb and left this in as a troll anyway because idc
 menu.add_player_feature("Crazy Rain", "toggle", popt.loops, function(feat, pid)
     menu.notify("Raining stuff on " .. player.get_player_name(pid), "Rain", 6, 6)
 	streaming.request_model(gameplay.get_hash_key("prop_elecbox_11"))
@@ -733,10 +672,15 @@ menu.add_player_feature("Crazy Rain", "toggle", popt.loops, function(feat, pid)
 	streaming.request_model(0x4FAF0D70)
 	streaming.request_model(0x810369E2)
 		
-	system.wait(6000)
+	count = 0
+    while count <= 15 do
+        system.wait(1000)
+		count = count + 1
+    end
 	menu.create_thread(crazyRain, {feat = feat, pid = pid})
 end)
 
+--\\Pretty sure I just stole it but idk at this point but it works even without spectate or being super close to (I think)
 local rgun = menu.add_player_feature("Railgun kill loop", "toggle", popt.loops, function(feat, pid)
     menu.create_thread(rgun, {feat = feat, pid = pid})
 end)
@@ -800,6 +744,216 @@ menu.add_player_feature("Gas Pump Man", "action", popt.attach, function(playerfe
     entity.attach_entity_to_entity(attach_object1132, playerped3, 0, pos, pos, true, true, false, 0, false)
 end)
 
+
+--\\Lobby Options below
+
+--\\Blame Lobby as selected person (auto updating because I am cool)
+lobbyexplode = menu.add_feature("Explosive Player Blaming: ", "action_value_str", opt.grief, function(val)
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) and pid ~= player.player_id() then 
+			menu.create_thread(boom, {val = val, pid = pid})
+		end
+	end
+end)
+
+--\\Blame Lobby as selected person with orbital cannon (auto updating because I am cool)
+lobbyorb = menu.add_feature("Orbital Player Blaming: ", "action_value_str", opt.grief, function(val)
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) and pid ~= player.player_id() then 
+			local pos = v3()
+			pped = player.get_player_ped(pid)
+			for i = 0, 31 do
+				if player.is_player_valid(i) and Playerz[val.value + 1] == player.get_player_name(i) then
+					myped = player.get_player_ped(i)
+					pos = entity.get_entity_coords(pped)
+					offset = v3(0.0,0.0,-2000.00)
+					script.get_global_f(1694982)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+					while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+						graphics.request_named_ptfx_asset("scr_xm_orbital")
+						system.wait(0)
+					end
+					ped.clear_ped_tasks_immediately(pped)
+					gameplay.set_override_weather(3)
+					gameplay.clear_cloud_hat()
+					fire.add_explosion(pos, 59, true, false, 1.5, myped)
+					fire.add_explosion(pos + offset, 60, true, false, 1.8, myped)
+					fire.add_explosion(pos + offset, 62, true, false, 2.0, myped)
+					fire.add_explosion(pos + v3(100.0,100.0,7000.00), 50, true, false, 1.0, myped)
+					fire.add_explosion(pos, 50, true, false, 1.0, myped)
+					graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", pos, v3(0, 0, 0), 100.000, false, false, true)
+					audio.play_sound_from_coord(-1, "BOATS_PLANES_HELIS_BOOM", v3(-910000.00,-10000.0,-19000.00), "MP_LOBBY_SOUNDS", true, 999999, false)
+					audio.play_sound_from_entity(-1, "DLC_XM_Explosions_Orbital_Cannon", pped, "MP_LOBBY_SOUNDS", true, 99999990, false)
+					audio.play_sound_from_entity(-1, "DLC_XM_Explosions_Orbital_Cannon", pped, 0, true, 0, false)
+					audio.play_sound_from_coord(-1, "BOATS_PLANES_HELIS_BOOM", v3(-910000.00,-10000.0,-19000.00), "MP_LOBBY_SOUNDS", true, 999999, false)
+					audio.play_sound_from_entity(script.get_global_i(1694982), "DLC_XM_Explosions_Orbital_Cannon", pped, "MP_LOBBY_SOUNDS", true, 99999990, false)
+					audio.play_sound_from_entity(script.get_global_i(1694982), "DLC_XM_Explosions_Orbital_Cannon", pped, 0, true, 0, false)
+					audio.play_sound_from_entity(-1, "DLC_XM_Explosions_Orbital_Cannon", pped, myped, true, 0, false)
+					audio.play_sound_from_entity(-1, "DLC_XM_Explosions_Orbital_Cannon", pped, 0, true, 0, false)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+					while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+						graphics.request_named_ptfx_asset("scr_xm_orbital")
+						system.wait(0)
+					end
+					gameplay.set_override_weather(3)
+					gameplay.clear_cloud_hat()
+					fire.add_explosion(pos, 59, false, true, 1.5, myped)
+					fire.add_explosion(pos + offset, 60, true, false, 1.8, myped)
+					fire.add_explosion(pos + offset, 62, true, false, 2.0, myped)
+					fire.add_explosion(pos + v3(100.0,100.0,7000.00), 50, true, false, 1.0, myped)
+					fire.add_explosion(pos, 50, true, false, 1.0, myped)
+					fire.add_explosion(pos, 50, true, false, 1.0, myped)
+					graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", pos, v3(0, 0, 0), 100.000, false, false, true)
+					--  audio.play_sound_from_coord(-1, "BOATS_PLANES_HELIS_BOOM", pos + v3(0.0,0.0,20000), "MP_LOBBY_SOUNDS", true, 0, false)
+					audio.play_sound_from_entity(-1, "DLC_XM_Explosions_Orbital_Cannon", pped, "o", true, 0, false)
+					audio.play_sound(-1, "DLC_XM_Explosions_Orbital_Cannon", 0, true, 0,false)
+					audio.play_sound(-1, "DLC_XM_Explosions_Orbital_Cannon", 0, true, 999999999, false)
+					audio.play_sound(script.get_global_i(1694982), "DLC_XM_Explosions_Orbital_Cannon", 0, true, 0, false)
+					audio.play_sound_from_entity(script.get_global_i(1694982), "DLC_XM_Explosions_Orbital_Cannon", pped,  0,  true, 999999999, false)
+					audio.play_sound_from_entity(-1, "MP_Impact", pped, 0, true, 0, false)
+					audio.play_sound(-1, "MP_Impact", 0, true, 0, false)
+					graphics.set_next_ptfx_asset("scr_xm_orbital")
+					while not graphics.has_named_ptfx_asset_loaded("scr_xm_orbital") do
+						graphics.request_named_ptfx_asset("scr_xm_orbital")
+						system.wait(0)
+					end
+					graphics.start_networked_ptfx_non_looped_at_coord("scr_xm_orbital_blast", pos, v3(0, 0, 0), 10.000, false, false, true)
+				end
+			end
+			PlayerArray()
+		end
+	end
+end)
+
+--\\Spawn banditos around lobby
+lobbystand = menu.add_feature("Stand Bandito Spawn: ", "action_value_str", opt.grief, function(val)
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) and pid ~= player.player_id() then 
+			local num = Objs[val.value+1]
+			local boomed = 0
+			cars = {}
+			drivers = {}
+			seater(num, pid, "rcbandito")	
+			while boomed < #cars do
+				for i = 1, #cars do
+					system.wait(500)
+					local pos1 = player.get_player_coords(pid)
+					local poss = v3(pos1.x + 3, pos1.y + 3, pos1.z + 5)
+					local bpos = entity.get_entity_coords(cars[i])
+					--menu.notify("Bandito Hunting", "Stand", 10, 2)
+					if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
+						fire.add_explosion(bpos, 0, true, false, 2.0, player.get_player_ped(pid))
+						--vehicle.detonate_vehicle_phone_explosive_device()
+						menu.notify("Bandito Exploding", "Stand", 5, 2)
+						entity.delete_entity(drivers[i])
+						entity.delete_entity(cars[i])
+						boomed = boomed + 1
+						--break
+					end
+			
+					--break
+				end
+				--break
+			end
+		end
+	end
+end):set_str_data(Objs)
+
+--\\Spawn banditos around and self blame lobby
+lobbyblamed = menu.add_feature("Stand Bandito Blamed: ", "action_value_str", opt.grief, function(val)
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) and pid ~= player.player_id() then 
+			local num = Objs[val.value+1]
+			local boomed = 0
+			cars = {}
+			drivers = {}
+			seater(num, pid, "rcbandito")	
+			while boomed < #cars do
+				for i = 1, #cars do
+					system.wait(500)
+					local pos1 = player.get_player_coords(pid)
+					local poss = v3(pos1.x + 3, pos1.y + 3, pos1.z + 5)
+					local bpos = entity.get_entity_coords(cars[i])
+					if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
+						fire.add_explosion(bpos, 0, true, false, 2.0, player.get_player_ped(blamed))
+						menu.notify("Bandito Exploding", "Stand", 5, 2)
+						entity.delete_entity(drivers[i])
+						entity.delete_entity(cars[i])
+						boomed = boomed + 1
+					end
+				end
+			end
+		end
+	end
+end):set_str_data(Objs)
+
+--\\Spawn minitanks around the lobby and (attempt to) shoot
+lobbytank = menu.add_feature("Stand Tank Spawn: ", "action_value_str", opt.grief, function(val)
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) and pid ~= player.player_id() then 
+			local num = Objs[val.value+1]
+			cars = {}
+			drivers = {}
+			seater(num, pid, "minitank")	
+			for i = 1, #cars do
+				while ped.get_ped_health(player.get_player_ped(pid)) > 0 do
+					system.wait(500)
+					local pos1 = player.get_player_coords(pid)
+					local poss = v3(pos1.x + 20, pos1.y + 20, pos1.z + 50)
+					local bpos = entity.get_entity_coords(cars[i])
+					menu.notify("Tank Sent", "Stand", 5, 2)
+					if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
+						ai.task_vehicle_shoot_at_ped(drivers[i], player.get_player_ped(pid), 100.0)
+
+					end
+				end
+				system.wait(1000)
+				entity.delete_entity(drivers[i])
+				entity.delete_entity(cars[i])
+			end
+		end
+	end
+end):set_str_data(Objs)
+
+function get_9__10_globals_pair()
+	return script.get_global_i(1658176 + 9), script.get_global_i(1658176 + 10)
+end
+
+--\\Made a bounty kill loop because too many people could not do it manually I wanted to meme them
+bountyloop = menu.add_feature("Bounty loop", "toggle", opt.recovery, function(val)
+	menu.notify("Use at own risk!", "Recovery", 5, 2)
+	while val.on do
+		local amount  = 9000
+		anonymous = 1
+
+		for pid = 0, 31 do
+			pped = player.get_player_ped(pid)
+			if player.is_player_valid(pid) and pid ~= player.player_id() then 
+				script.trigger_script_event(-1906146218, pid, {pid, pid, 3, amount, 1, anonymous, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, get_9__10_globals_pair()})
+				system.wait(1000)
+				pos = entity.get_entity_coords(pped)
+				fire.add_explosion(pos, 72, true, false, 150, blamed)
+			end
+		end
+	end
+end)
+
+--\\Stole from master unlocker but I am lazy and idk what it does (yes sets globals but what is the global and how I find more)
+menu.add_feature('Money Loop: $500K', "toggle", opt.recovery, function(q)
+	menu.notify("Use at own risk!", "Recovery", 5, 2)
+	menu.notify('If you receive a transaction message, wait a few seconds/minutes',"500K Loop", 2, 11)
+	while q.on do 
+		script.set_global_i('1700984','1')
+		menu.notify('Use at your own risk!\n Looping $500K - Every 12 seconds',"500K Loop", 2, 11)
+		system.wait(200)
+		script.set_global_i('1700984','0')
+		system.wait(12000)
+		if not q.on then 
+			return HANDLER_CONTINUE 
+		end;
+		system.wait(0)
+	end 
+end)
 
 --\\Self Options below
 menu.add_player_feature("Safe Space(anti-crash-cam)", "toggle", 0, function(feat)
@@ -865,3 +1019,52 @@ menu.add_player_feature("copy ip to clipboard", "action", 0, function(feat, pid)
 local player_ip = dec2ip(player.get_player_ip(pid)) utils.to_clipboard(""..player_ip.."")
 end)
 
+--\\Function and array for player list made by GhostOne
+Playerz = {}
+function PlayerArray()
+	Playerz = {}
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) then 
+			table.insert(Playerz, player.get_player_name(pid))
+		end
+	end
+	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	sniper:set_str_data(Playerz)
+	lobbyexplode:set_str_data(Playerz)
+	lobbyorb:set_str_data(Playerz)
+	--return Playerz
+end
+PlayerArray()
+
+--\\Event listeners for auto updating player list like a boss
+event.add_event_listener("player_join", function ()
+	Playerz = {}
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) then 
+			table.insert(Playerz, player.get_player_name(pid))
+		end
+	end
+	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	sniper:set_str_data(Playerz)
+	lobbyexplode:set_str_data(Playerz)
+	lobbyorb:set_str_data(Playerz)
+	--return Playerz
+end)
+
+--\\Event listeners for auto updating player list like a boss
+event.add_event_listener("player_leave", function ()
+	Playerz = {}
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) then 
+			table.insert(Playerz, player.get_player_name(pid))
+		end
+	end
+	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	sniper:set_str_data(Playerz)
+	lobbyexplode:set_str_data(Playerz)
+	lobbyorb:set_str_data(Playerz)
+	--return Playerz
+end)
