@@ -1,0 +1,57 @@
+Osiris_uwu =  menu.add_player_feature("Osiris lua", "parent", 0, function(feat, pid) end).id
+Osiris_script_local = menu.add_feature("Osiris script", "parent", 0, function(feat, pid) end).id
+lobby_protections = menu.add_feature("protection options", "parent", Osiris_script_local, function(feat, pid) end).id
+aim_protections = menu.add_feature("aim protection", "parent", lobby_protections, function(feat, pid) end).id
+self_options = menu.add_feature("self options", "parent", Osiris_script_local, function(feat, pid) end).id
+self_veh_options = menu.add_feature("vehicle options", "parent", Osiris_script_local, function(feat, pid) end).id
+self_health = menu.add_feature("health options", "parent", self_options, function(feat, pid) end).id
+self_model = menu.add_feature("upgraded model changer", "parent", self_options, function(feat, pid) end).id
+self_Animals = menu.add_feature("Animals", "parent", self_model, function(feat, pid) end).id
+self_naked = menu.add_feature("naked humans", "parent", self_model, function(feat, pid) end).id
+water_Animals = menu.add_feature("water Animals", "parent", self_Animals, function(feat, pid) menu.notify("if you try and use a water animal on land you will crash the session", "Osiris lua", 9, 50)
+end).id
+flying_Animals = menu.add_feature("flying Animals", "parent", self_Animals, function(feat, pid) menu.notify("if you crash or don't land right with a flying model you will instantly die", "Osiris lua", 9, 50)
+end).id
+ground_Animals = menu.add_feature("ground Animals", "parent", self_Animals, function(feat, pid) end).id
+lobby_crash = menu.add_feature("lobby crashes", "parent", Osiris_script_local, function(feat, pid) end).id
+lobby_adv = menu.add_feature("advanced user mode", "parent", Osiris_script_local, function(feat, pid) end).id
+session_shit = menu.add_feature("session options", "parent", Osiris_script_local, function(feat, pid) end).id
+session_grav = menu.add_feature("gravity options", "parent", session_shit, function(feat, pid) menu.notify("turning off gravity for everything or objects needs a very good computer it will lag hard", "Osiris lua", 9, 50)
+end).id
+session_chat = menu.add_feature("chat options", "parent", session_shit, function(feat, pid) end).id
+session_sms = menu.add_feature("sms options", "parent", session_shit, function(feat, pid) menu.notify("only works if player has voice chat turned on", "Osiris lua", 9, 50)
+end).id
+session_block = menu.add_feature("block area options", "parent", session_shit, function(feat, pid) end).id
+wave_options = menu.add_feature("wave options", "parent", session_shit, function(feat, pid) end).id
+wave_presets = menu.add_feature("wave presets", "parent", wave_options, function(feat, pid) end).id
+ trolls = menu.add_player_feature("trolling", "parent", Osiris_uwu).id
+ normal_attackers = menu.add_player_feature("send attackers", "parent", trolls).id
+ ptfx_trolls = menu.add_player_feature("PTFX (effect) trolling", "parent", trolls).id
+ attach_ops = menu.add_player_feature("attachment options", "parent", Osiris_uwu).id
+ attach_preset = menu.add_player_feature("attachment presets", "parent", attach_ops).id
+ attach_head = menu.add_player_feature("attachment to head", "parent", attach_ops).id
+ attach_left_hand = menu.add_player_feature("attachment left hand", "parent", attach_ops).id
+ attach_Right_hand = menu.add_player_feature("attachment right hand", "parent", attach_ops).id
+ attach_chest = menu.add_player_feature("attachment chest", "parent", attach_ops).id
+ attach_left_foot = menu.add_player_feature("attachment left foot", "parent", attach_ops).id
+ attach_right_foot = menu.add_player_feature("attachment right foot", "parent", attach_ops).id
+ troll_ptfx = menu.add_player_feature("non looped ptfx", "parent", ptfx_trolls).id
+ troll_ptfx_looped = menu.add_player_feature("looped ptfx", "parent", ptfx_trolls).id
+ s_events = menu.add_player_feature("remote options", "parent", Osiris_uwu).id
+ force_options = menu.add_player_feature("force options", "parent", s_events).id
+ friendly = menu.add_player_feature("friendly options", "parent", s_events).id
+ ceo_shit = menu.add_player_feature("ceo options", "parent", s_events).id
+ weapon_options = menu.add_player_feature("weapon options", "parent", s_events).id
+ weapon_ammo_preset = menu.add_player_feature("all explosive ammo", "parent", weapon_options).id
+ weapon_ammo_preset_preset = menu.add_player_feature("explosive ammo presets", "parent", weapon_options).id
+ toxic = menu.add_player_feature("mischievous options", "parent", Osiris_uwu).id
+ griefing_options = menu.add_player_feature("griefing options", "parent", toxic).id
+ kicks = menu.add_player_feature("kicks", "parent", toxic).id
+ crashes = menu.add_player_feature("crashes", "parent", toxic).id
+ veh_shit = menu.add_player_feature("vehicle options", "parent", Osiris_uwu).id
+ veh_trolling = menu.add_player_feature("vehicle trolling options", "parent", veh_shit).id
+ veh_speed = menu.add_player_feature("vehicle speed options", "parent", veh_shit).id
+ veh_other = menu.add_player_feature("vehicle other options", "parent", veh_shit).id
+ pid_sms = menu.add_player_feature("sms options", "parent", Osiris_uwu).id menu.notify("only works if player has voice chat turned on", "Osiris lua", 9, 50)
+ info_shit = menu.add_player_feature("INFO", "parent", Osiris_uwu).id
+ MISC_options = menu.add_player_feature("Misc options", "parent", Osiris_uwu).id
