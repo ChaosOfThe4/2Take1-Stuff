@@ -746,12 +746,26 @@ end)
 
 
 --\\Lobby Options below
+lobbyexplodefreeze = menu.add_feature("Explosive Player Blaming Freeze", "toggle", opt.grief, function(val)
+	if val.on then
+		freeze = true
+	else
+		freeze = false
+	end
+	
+	return freeze
+end)
 
 --\\Blame Lobby as selected person (auto updating because I am cool)
 lobbyexplode = menu.add_feature("Explosive Player Blaming: ", "action_value_str", opt.grief, function(val)
 	for pid = 0, 31 do
 		if player.is_player_valid(pid) and pid ~= player.player_id() then 
-			menu.create_thread(boom, {val = val, pid = pid})
+			if freeze then
+				ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
+				menu.create_thread(boom, {val = val, pid = pid})
+			else
+				menu.create_thread(boom, {val = val, pid = pid})
+			end
 		end
 	end
 end)
@@ -825,96 +839,7 @@ lobbyorb = menu.add_feature("Orbital Player Blaming: ", "action_value_str", opt.
 	end
 end)
 
---\\Spawn banditos around lobby
-lobbystand = menu.add_feature("Stand Bandito Spawn: ", "action_value_str", opt.grief, function(val)
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) and pid ~= player.player_id() then 
-			local num = Objs[val.value+1]
-			local boomed = 0
-			cars = {}
-			drivers = {}
-			seater(num, pid, "rcbandito")	
-			while boomed < #cars do
-				for i = 1, #cars do
-					system.wait(500)
-					local pos1 = player.get_player_coords(pid)
-					local poss = v3(pos1.x + 3, pos1.y + 3, pos1.z + 5)
-					local bpos = entity.get_entity_coords(cars[i])
-					--menu.notify("Bandito Hunting", "Stand", 10, 2)
-					if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
-						fire.add_explosion(bpos, 0, true, false, 2.0, player.get_player_ped(pid))
-						--vehicle.detonate_vehicle_phone_explosive_device()
-						menu.notify("Bandito Exploding", "Stand", 5, 2)
-						entity.delete_entity(drivers[i])
-						entity.delete_entity(cars[i])
-						boomed = boomed + 1
-						--break
-					end
-			
-					--break
-				end
-				--break
-			end
-		end
-	end
-end):set_str_data(Objs)
-
---\\Spawn banditos around and self blame lobby
-lobbyblamed = menu.add_feature("Stand Bandito Blamed: ", "action_value_str", opt.grief, function(val)
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) and pid ~= player.player_id() then 
-			local num = Objs[val.value+1]
-			local boomed = 0
-			cars = {}
-			drivers = {}
-			seater(num, pid, "rcbandito")	
-			while boomed < #cars do
-				for i = 1, #cars do
-					system.wait(500)
-					local pos1 = player.get_player_coords(pid)
-					local poss = v3(pos1.x + 3, pos1.y + 3, pos1.z + 5)
-					local bpos = entity.get_entity_coords(cars[i])
-					if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
-						fire.add_explosion(bpos, 0, true, false, 2.0, player.get_player_ped(blamed))
-						menu.notify("Bandito Exploding", "Stand", 5, 2)
-						entity.delete_entity(drivers[i])
-						entity.delete_entity(cars[i])
-						boomed = boomed + 1
-					end
-				end
-			end
-		end
-	end
-end):set_str_data(Objs)
-
---\\Spawn minitanks around the lobby and (attempt to) shoot
-lobbytank = menu.add_feature("Stand Tank Spawn: ", "action_value_str", opt.grief, function(val)
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) and pid ~= player.player_id() then 
-			local num = Objs[val.value+1]
-			cars = {}
-			drivers = {}
-			seater(num, pid, "minitank")	
-			for i = 1, #cars do
-				while ped.get_ped_health(player.get_player_ped(pid)) > 0 do
-					system.wait(500)
-					local pos1 = player.get_player_coords(pid)
-					local poss = v3(pos1.x + 20, pos1.y + 20, pos1.z + 50)
-					local bpos = entity.get_entity_coords(cars[i])
-					menu.notify("Tank Sent", "Stand", 5, 2)
-					if (bpos.x <= poss.x) and (bpos.y <= poss.y) and (bpos.z <= poss.z)  or (bpos.x >= poss.x) and (bpos.y >= poss.y) and (bpos.z >= poss.z)then
-						ai.task_vehicle_shoot_at_ped(drivers[i], player.get_player_ped(pid), 100.0)
-
-					end
-				end
-				system.wait(1000)
-				entity.delete_entity(drivers[i])
-				entity.delete_entity(cars[i])
-			end
-		end
-	end
-end):set_str_data(Objs)
-
+--\\Returns globals for 500k loop
 function get_9__10_globals_pair()
 	return script.get_global_i(1658176 + 9), script.get_global_i(1658176 + 10)
 end
@@ -943,9 +868,10 @@ menu.add_feature('Money Loop: $500K', "toggle", opt.recovery, function(q)
 	menu.notify("Use at own risk!", "Recovery", 5, 2)
 	menu.notify('If you receive a transaction message, wait a few seconds/minutes',"500K Loop", 2, 11)
 	while q.on do 
+		script.set_global_i(262145+22765,500000000) -- Global responsible for the amount received (reward), you cannot change over 500mil.
 		script.set_global_i('1700984','1')
 		menu.notify('Use at your own risk!\n Looping $500K - Every 12 seconds',"500K Loop", 2, 11)
-		system.wait(200)
+		system.wait(1000)
 		script.set_global_i('1700984','0')
 		system.wait(12000)
 		if not q.on then 
@@ -956,52 +882,107 @@ menu.add_feature('Money Loop: $500K', "toggle", opt.recovery, function(q)
 end)
 
 --\\Self Options below
+
+--\\Anti crash cam from Atomic?
 menu.add_player_feature("Safe Space(anti-crash-cam)", "toggle", 0, function(feat)
 	menu.create_thread(safespace, {feat = feat})
 end)
 
+--\\0Health otr
 menu.add_feature("Undetected OTR", "toggle", opt.opption, function(feat)
 	menu.create_thread(easyOTR, {feat = feat})
 end)
 
+--\\Gives player high health to mimic god mode
 menu.add_feature("Health Mod god mode", "toggle", opt.opption, function(feat)
 	menu.create_thread(easyGM, {feat = feat})
 end)
 
+--\\mk2 hvy sniper fire ammo
 menu.add_feature("Fire Ammo", "toggle", opt.wopption, function(feat)
 	menu.create_thread(fireSniper, {feat = feat})
 end)
 
+--\\quickSwap gl and hm turn off before shooting veh rockets
 menu.add_feature("Quick Explosives", "toggle", opt.wopption, function(feat)
 	menu.create_thread(quickSwap, {feat = feat})
 end)
 
+--\\Teleports forward to easily escape cages and stuff 
 menu.add_feature("Teleport Forward", "action", opt.util, function()
 	local pos = player.get_player_coords(blamed)
 	entity.set_entity_coords_no_offset(pedLocals, v3(pos.x + 10, pos.y + 3, pos.z))
 end)
 
+--\\decimal int32 to hex
+function Dec2Hex(nValue)
+	if type(nValue) == "string" then
+		nValue = String.ToNumber(nValue);
+	end
+	nHexVal = string.format("%X", nValue);  -- %X returns uppercase hex, %x gives lowercase letters
+	sHexVal = nHexVal.."";
+	return sHexVal;
+end
+
+--menu.add_feature("Tell me object hash: ", "action_value_str", opt.util, function(val)
+--	print("Hash is: "..gameplay.get_hash_key(Objs[val.value+1]))
+--	print("Hex is: 0x"..Dec2Hex(gameplay.get_hash_key(Objs[val.value+1])))
+--end):set_str_data(Objs)
+
+--menu.add_feature("Tell me ped hash: ", "action_value_str", opt.util, function(val)
+--	print("Hash is: "..gameplay.get_hash_key(pedList[val.value+1]))
+--	print("Hex is: 0x"..Dec2Hex(gameplay.get_hash_key(pedList[val.value+1])))
+--end):set_str_data(pedList)
+
+--\\converts hex to int32 
+menu.add_feature("Hex To Int32", "action", opt.util, function(feat)
+   local input, i = input.get("Input Hex: ", "", 100, 0)
+
+   if input == 1 then
+      return HANDLER_CONTINUE
+  end
+  if input == 2 then
+      return HANDLER_POP
+  end
+
+  print("Int32 is: "..gameplay.get_hash_key(i))
+end)
+--\\Feature for converting int32 to hex
+menu.add_feature("Int32 To Hex", "action", opt.util, function(feat)
+   local input, i = input.get("Input Hex: ", "", 100, 0)
+
+   if input == 1 then
+      return HANDLER_CONTINUE
+  end
+  if input == 2 then
+      return HANDLER_POP
+  end
+
+  print("Hex is: 0x"..Dec2Hex(gameplay.get_hash_key(i)))
+end)
+--\\FPS crash protex from zeromenu
 fps = menu.add_feature("FPS Crash Protections", "toggle", opt.sopption, function(feat)
 	menu.create_thread(fpsCrashCheck, feat.on)
 end)
-
+--\\Turn on fps protex
 fps.on = true
-
+--\\Auto host kick
 host = menu.add_feature("Auto Take Host", "toggle", opt.sopption, function(feat)
 	menu.create_thread(autoHost, {feat = feat})
 end)
-
+--\\Turn on host kick
 host.on= true
-
+--\\Checks for players using health god mode or 0 health otr
 gmCheck = menu.add_feature("Check for Godmode/OTR", "toggle", opt.sopption, function(feat)
 	while feat.on do
 		menu.create_thread(pedHealthCheck, {})
 		system.wait(15000)
 	end
 end)
-
+--\\Turns on godmode check
 gmCheck.on = true
 
+--\\2T1 returns ips as decimal for stupid reason
 function dec2ip(decip)
 local div, quote, ip;
 for i = 3, 0, -1 do
@@ -1014,7 +995,7 @@ for i = 3, 0, -1 do
 end
 return ip
 end
-
+--\\2T1 returns ips as decimal for stupid reason
 menu.add_player_feature("copy ip to clipboard", "action", 0, function(feat, pid)
 local player_ip = dec2ip(player.get_player_ip(pid)) utils.to_clipboard(""..player_ip.."")
 end)
