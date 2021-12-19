@@ -169,21 +169,11 @@ menu.add_player_feature("Cage 'Em", "action", 0, function(val, pid)
     object.create_object(gameplay.get_hash_key("as_prop_as_target_scaffold_01a"), v3(pos.x, pos.y - .5, pos.z - 1), true, false)
 end)
 
-Playerz = {}
-function PlayerArray()
-	Playerz = {}
-	for pid = 0, 33 do
-		if player.is_player_valid(pid) then 
-			table.insert(Playerz, player.get_player_name(pid))
-		end
-	end
-	return Playerz
-end
-PlayerArray()
 
 menu.add_player_feature("Update Players", "action", 0, function()
 	PlayerArray()
 	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
 	menu.notify("Playerlist Updated", "Update", 5, 2)
 end)
 
@@ -311,4 +301,45 @@ explode = menu.add_feature("Explosive Player Blaming: ", "action_value_str", 0, 
 			end
 		end
 	end
+end)
+
+--\\Function and array for player list made by GhostOne
+Playerz = {}
+function PlayerArray()
+	Playerz = {}
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) then 
+			table.insert(Playerz, player.get_player_name(pid))
+		end
+	end
+	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	--return Playerz
+end
+PlayerArray()
+
+--\\Event listeners for auto updating player list like a boss
+event.add_event_listener("player_join", function ()
+	Playerz = {}
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) then 
+			table.insert(Playerz, player.get_player_name(pid))
+		end
+	end
+	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	--return Playerz
+end)
+
+--\\Event listeners for auto updating player list like a boss
+event.add_event_listener("player_leave", function ()
+	Playerz = {}
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) then 
+			table.insert(Playerz, player.get_player_name(pid))
+		end
+	end
+	orbital:set_str_data(Playerz)
+	explode:set_str_data(Playerz)
+	--return Playerz
 end)
