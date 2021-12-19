@@ -570,11 +570,11 @@ end
 function netbail(pid)
 	local par = script.get_global_i(1630816 + (1 + (pid * 597) + 508))
 		system.yield(150)
-	script.trigger_script_event(2092565704, pid, {pid, par})
+	script.trigger_script_event(1228916411, pid, {pid, par})
 		system.yield(150)
-	script.trigger_script_event(2092565704, pid, {pid, par})
+	script.trigger_script_event(1228916411, pid, {pid, par})
 		system.yield(150)
-	script.trigger_script_event(2092565704, pid, {pid, par})
+	script.trigger_script_event(1228916411, pid, {pid, par})
 		system.yield(150)
 end
 
