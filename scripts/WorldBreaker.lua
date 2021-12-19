@@ -305,7 +305,7 @@ end)
 menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
 	for i = 1, 2 do 
 			system.yield(50)
-		script.trigger_script_event(696123127, pid, {pid, math.random(-2147483647, 2147483647), pid})
+		script.trigger_script_event(-279342915, pid, {pid, math.random(-2147483647, 2147483647), pid})
 			system.yield(50)
 	end
 	menu.notify("Script event kicks sent", "SE Kick", 10, 2)
@@ -384,15 +384,15 @@ end)
 
 --\\This from somewhere idk if it works
 menu.add_player_feature('Block - Passive', "action", popt.trolls, function(f, pid)
-        script.trigger_script_event(1472357458, pid, {1, nil})
-		script.trigger_script_event(1472357458, pid, {1, nil})
+        script.trigger_script_event(1114091621, pid, {1, nil})
+		script.trigger_script_event(1114091621, pid, {1, nil})
         menu.notify('Blocked Player from activating Passive.', 10, 2)
     end)
 
 --\\This from somewhere idk if it works
 menu.add_player_feature('UN-Block - Passive', "action", popt.trolls, function(f, pid)
-        script.trigger_script_event(1472357458, pid, {2, nil})
-		script.trigger_script_event(1472357458, pid, {0, nil})
+        script.trigger_script_event(1114091621, pid, {2, nil})
+		script.trigger_script_event(1114091621, pid, {0, nil})
         menu.notify('UN-Blocked Player from Passive.', 10, 2)
     end)
 
@@ -854,7 +854,7 @@ bountyloop = menu.add_feature("Bounty loop", "toggle", opt.recovery, function(va
 		for pid = 0, 31 do
 			pped = player.get_player_ped(pid)
 			if player.is_player_valid(pid) and pid ~= player.player_id() then 
-				script.trigger_script_event(-1906146218, pid, {pid, pid, 3, amount, 1, anonymous, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, get_9__10_globals_pair()})
+				script.trigger_script_event(1294995624, pid, {pid, pid, 3, amount, 1, anonymous, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, get_9__10_globals_pair()})
 				system.wait(1000)
 				pos = entity.get_entity_coords(pped)
 				fire.add_explosion(pos, 72, true, false, 150, blamed)
@@ -868,11 +868,11 @@ menu.add_feature('Money Loop: $500K', "toggle", opt.recovery, function(q)
 	menu.notify("Use at own risk!", "Recovery", 5, 2)
 	menu.notify('If you receive a transaction message, wait a few seconds/minutes',"500K Loop", 2, 11)
 	while q.on do 
-		script.set_global_i(262145+22765,500000000) -- Global responsible for the amount received (reward), you cannot change over 500mil.
-		script.set_global_i('1700984','1')
+		script.set_global_i(262145+22853 , 133377)
+		script.set_global_i(1964171, 1)
 		menu.notify('Use at your own risk!\n Looping $500K - Every 12 seconds',"500K Loop", 2, 11)
-		system.wait(1000)
-		script.set_global_i('1700984','0')
+		system.wait(0)
+		script.set_global_i(1964171,0)
 		system.wait(12000)
 		if not q.on then 
 			return HANDLER_CONTINUE 
