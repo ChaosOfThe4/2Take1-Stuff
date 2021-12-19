@@ -287,3 +287,28 @@ menu.add_player_feature("Crazy Rain", "toggle", 0, function(feat, pid)
 	system.wait(6000)
 	menu.create_thread(crazyRain, {feat = feat, pid = pid})
 end)
+
+--\\Freeze player before boom
+explodefreeze = menu.add_feature("Explosive Player Blaming Freeze", "toggle", 0, function(val)
+	if val.on then
+		freezeplayer = true
+	else
+		freezeplayer = false
+	end
+	
+	return freezeplayer
+end)
+
+--\\Blame kill as selected person (auto updating because I am cool)
+explode = menu.add_feature("Explosive Player Blaming: ", "action_value_str", 0, function(val)
+	for pid = 0, 31 do
+		if player.is_player_valid(pid) and pid ~= player.player_id() then 
+			if freezeplayer then
+				ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
+				menu.create_thread(boom, {val = val, pid = pid})
+			else
+				menu.create_thread(boom, {val = val, pid = pid})
+			end
+		end
+	end
+end)
