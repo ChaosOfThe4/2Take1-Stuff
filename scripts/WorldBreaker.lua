@@ -228,7 +228,7 @@ end)
 
 --\\2t1Revive crash
 menu.add_player_feature("Revive Crash", "action", popt.opption, function(feat, pid)
-    script.trigger_script_event(-2043109205, pid, {0, 0, 30583, 0, 0, 0, -328966, -1933210564, 0})
+    script.trigger_script_event(-1386010354, pid, {0, 0, 30583, 0, 0, 0, -328966, -1933210564, 0})
 end)
 
 --\\Moist se kick
