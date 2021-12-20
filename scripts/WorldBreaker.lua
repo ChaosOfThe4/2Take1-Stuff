@@ -211,20 +211,6 @@ menu.add_player_feature("Give Pizza", "action", popt.opption, function(val, pid)
 
 end)
 
---\\Deleted the ones I have checked (reason: homslice just copied our se crash protex)
-function osiris_kick_v2(pid)
-if network.network_is_host(player.player_id()) then
-network.network_session_kick_player(pid)
-end
-end
-function osiris_kick_v4(pid)
-script.trigger_script_event(-720040631, pid, {}) script.trigger_script_event(1033875141, pid, {-17645264, -26800537, -66094971, -45281983, -24450684, -13000488, 59643555, 34295654, 91870118, -3283691}) script.trigger_script_event(-81613951, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-1292453789, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(1623637790, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-1905128202, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(1160415507, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-2120750352, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(0xe6116600, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) system.wait(50) script.trigger_script_event(-922075519, pid, {pid, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1}) script.trigger_script_event(-1975590661, pid, {84857178, 61749268, -80053711, -78045655, 56341553, -78686524, -46044922, -22412109, 29388428, -56335450}) local pos = v3() pos = player.get_player_coords(pid) pos.x = math.floor(pos.x) pos.y = math.floor(pos.y) pos.z = math.floor(pos.z) script.trigger_script_event(-1975590661, pid, {pid, pos.x, pos.y, pos.z, 0, 0, 2147483647, 0, script.get_global_i(1590682 + (pid * 883) + 99 + 28), 1}) script.trigger_script_event(-1975590661, pid, {pid, pos.x, pos.y, pos.z, 0, 0, 1000, 0, script.get_global_i(1590682 + (pid * 883) + 99 + 28), 1}) script.trigger_script_event(-2122716210, pid, {91645, -99683, 1788, 60877, 55085, 72028}) script.trigger_script_event(-2120750352, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) script.trigger_script_event(-2122716210, pid, {91645, -99683, 1788, 60877, 55085, 72028}) script.trigger_script_event(0xE6116600, pid, {pid, script.get_global_i(1630317 + (1 + (pid * 595)) + 506)}) system.wait(50) script.trigger_script_event(0xB0886E20, pid, {0, 30583, 0, 0, 0, 1061578342, 1061578342, 4}) script.trigger_script_event(0xB0886E20, pid, {0, 30583, 0, 0, 0, 1061578342, 1061578342, 4}) script.trigger_script_event(0x9DB77399, pid, {50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 999999999999999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}) script.trigger_script_event(0x9DB77399, pid, {50, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 999999999999999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}) script.trigger_script_event(0xB0886E20, pid, {-1, 0, 0, 0}) script.trigger_script_event(0xB0886E20, pid, {0, -1, -1, 0}) script.trigger_script_event(0x9DB77399, pid, {-1, 0, -1, 0}) script.trigger_script_event(0xF5CB92DB, pid, {0, 0, 46190868, 0, 2}) script.trigger_script_event(0xF5CB92DB, pid, {46190868, 0, 46190868, 46190868, 2}) script.trigger_script_event(0xF5CB92DB, pid, {1337, -1, 1, 1, 0, 0, 0}) script.trigger_script_event(0xF5CB92DB, pid, {pid, 1337, -1, 1, 1, 0, 0, 0})
-end
-
---\\Osiris script kicks
-menu.add_player_feature("Osiris Kick", "action", popt.opption, function(feat, pid)
-	osiris_kick_v4(pid)
-end)
 
 --\\2t1Revive crash : se crash 2
 menu.add_player_feature("Revive Crash", "action", popt.opption, function(feat, pid)
