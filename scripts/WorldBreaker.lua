@@ -325,15 +325,15 @@ menu.add_player_feature("ScriptHost Fuckarino (M)", "toggle", popt.opption, func
 			--se crash 8
 			script.trigger_script_event(1258808115, pid, {-1, 500000, 849451549, -1, -1})
 			--r* removed this se
-			script.trigger_script_event(315658550, pid, {-1, 500000, 849451549, -1, -1})
+			--script.trigger_script_event(315658550, pid, {-1, 500000, 849451549, -1, -1})
 			--se crash 8
 			script.trigger_script_event(1258808115, pid, {-1139568479, -1, 1, 100099})
 			--r* removed this se
-			script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			--script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
 			--se crash 8
 			script.trigger_script_event(1258808115, pid, {-1, -1, -1, -1, -1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
 			--r* removed this se
-			script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
+			--script.trigger_script_event(315658550, pid, {-1139568479, -1, 1, 100099, -1, 500000, 849451549, -1, -1, 91645, -99683, 1788, 60877, 55085, 72028})
 			system.yield(350)
 		end		
 	end
