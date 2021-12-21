@@ -279,7 +279,7 @@ menu.add_player_feature("Crazy Rain", "toggle", 0, function(feat, pid)
 end)
 
 --\\Freeze player before boom
-explodefreeze = menu.add_feature("Explosive Player Blaming Freeze", "toggle", 0, function(val)
+explodefreeze = add_player_feature("Explosive Player Blaming Freeze", "toggle", 0, function(val)
 	if val.on then
 		freezeplayer = true
 	else
@@ -290,15 +290,13 @@ explodefreeze = menu.add_feature("Explosive Player Blaming Freeze", "toggle", 0,
 end)
 
 --\\Blame kill as selected person (auto updating because I am cool)
-explode = menu.add_feature("Explosive Player Blaming: ", "action_value_str", 0, function(val)
-	for pid = 0, 31 do
-		if player.is_player_valid(pid) and pid ~= player.player_id() then 
-			if freezeplayer then
-				ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
-				menu.create_thread(boom, {val = val, pid = pid})
-			else
-				menu.create_thread(boom, {val = val, pid = pid})
-			end
+explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_str", 0, function(val, pid)
+	if player.is_player_valid(pid) and pid ~= player.player_id() then 
+		if freezeplayer then
+			ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
+			menu.create_thread(boom, {val = val, pid = pid})
+		else
+			menu.create_thread(boom, {val = val, pid = pid})
 		end
 	end
 end)
