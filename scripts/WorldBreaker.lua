@@ -446,8 +446,27 @@ menu.add_player_feature("Update Players", "action", popt.trolls, function()
 	menu.notify("Playerlist Updated", "Update", 5, 2)
 end)
 
+--\\Freeze player before boom
+explodefreeze = menu.add_player_feature("Explosive Player Blaming Freeze", "toggle", popt.trolls, function(val)
+	if val.on then
+		freezeplayer = true
+	else
+		freezeplayer = false
+	end
+	
+	return freezeplayer
+end)
+
+--\\Blame kill as selected person (auto updating because I am cool)
 explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
-	menu.create_thread(boom, {val = val, pid = pid})
+	if player.is_player_valid(pid) and pid ~= player.player_id() then 
+		if freezeplayer then
+			ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
+			menu.create_thread(boom, {val = val, pid = pid})
+		else
+			menu.create_thread(boom, {val = val, pid = pid})
+		end
+	end
 end)
 
 sniper = menu.add_player_feature("Sniper Player Blaming: ", "action_value_str", popt.trolls, function(val, pid)
