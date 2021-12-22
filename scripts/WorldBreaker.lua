@@ -217,20 +217,13 @@ menu.add_player_feature("Revive Crash", "action", popt.opption, function(feat, p
     script.trigger_script_event(-1386010354, pid, {0, 0, 30583, 0, 0, 0, -328966, -1933210564, 0})
 end)
 
-menu.add_player_feature("Worldbreaker Crash", "action", popt.opption, function(feat, pid)
-	--\\Currently not in sep even though it was before because mike is slacking
-	script.trigger_script_event(998716537, pid, {-1})
-	--\\Just in case mike is better than me like usual it is in sep but still 
-	script.trigger_script_event(2112408256, pid, {-1})
-end)
-
-
 --\\Se I found somehow works
 menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
 	for i = 1, 2 do 
 			system.yield(50)
 		script.trigger_script_event(-279342915, pid, {pid, math.random(-2147483647, 2147483647), pid})
 			system.yield(50)
+		script.trigger_script_event(998716537, pid, {-1})
 	end
 	menu.notify("Script event kicks sent", "SE Kick", 10, 2)
 end)
