@@ -600,7 +600,7 @@ local rgun = menu.add_player_feature("Railgun kill loop", "toggle", popt.loops, 
 end)
 
 menu.add_player_feature("SMS Spam", "toggle", popt.loops, function(feat, pid)
-	local msg =  get("Message to send", "You Suck", 75, 2)
+	local msg =  input.get("Message to send", "You Suck", 75, 2)
 	while feat.on do
 		player.send_player_sms(pid, msg)
 		system.wait(500)
