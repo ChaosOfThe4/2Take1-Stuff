@@ -599,7 +599,13 @@ local rgun = menu.add_player_feature("Railgun kill loop", "toggle", popt.loops, 
     menu.create_thread(rgun, {feat = feat, pid = pid})
 end)
 
-
+menu.add_player_feature("SMS Spam", "toggle", popt.loops, function(feat, pid)
+	local msg =  get("Message to send", "You Suck", 75, 2)
+	while feat.on do
+		player.send_player_sms(pid, msg)
+		system.wait(500)
+	end
+end)
 --\\Attachment Options below
 menu.add_player_feature("Burn The Target", "action", popt.attach, function(playerfeat, pid)
 
