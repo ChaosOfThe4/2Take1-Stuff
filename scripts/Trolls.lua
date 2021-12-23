@@ -281,7 +281,7 @@ menu.add_player_feature("Crazy Rain", "toggle", trolls, function(feat, pid)
 end)
 
 --\\Freeze player before boom
-explodefreeze = add_player_feature("Explosive Player Blaming Freeze", "toggle", trolls, function(val)
+explodefreeze = menu.add_player_feature("Explosive Player Blaming Freeze", "toggle", trolls, function(val)
 	if val.on then
 		freezeplayer = true
 	else
