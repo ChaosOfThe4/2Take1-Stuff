@@ -304,9 +304,10 @@ explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_st
 end)
 
 menu.add_player_feature("SMS Spam", "toggle", popt.loops, function(feat, pid)
-	local msg =  get("Message to send", "You Suck", 50, 2)
+	local msg =  get("Message to send", "You Suck", 75, 2)
 	while feat.on do
 		player.send_player_sms(pid, msg)
+		system.wait(500)
 	end
 end)
 
