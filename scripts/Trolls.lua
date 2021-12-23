@@ -1,3 +1,5 @@
+trolls = menu.add_player_feature("α Troll Menu Ω", "parent", 0).id
+
 local pedLocals = player.get_player_ped(player.player_id())
 
 Objs = {
@@ -93,7 +95,7 @@ local function crazyRain(context)
     end
 end
 
-menu.add_player_feature("Send RC Tanks: ", "action_value_str", 0, function(val, pid)
+menu.add_player_feature("Send RC Tanks: ", "action_value_str", trolls, function(val, pid)
 	local num = Objs[val.value+1]
 	cars = {}
 	drivers = {}
@@ -115,7 +117,7 @@ menu.add_player_feature("Send RC Tanks: ", "action_value_str", 0, function(val, 
 	end
 end):set_str_data(Objs)
 
-menu.add_player_feature("Send RC Banditos: ", "action_value_str", 0, function(val, pid)
+menu.add_player_feature("Send RC Banditos: ", "action_value_str", trolls, function(val, pid)
 	local num = Objs[val.value+1]
 	local boomed = 0
 	cars = {}
@@ -139,7 +141,7 @@ menu.add_player_feature("Send RC Banditos: ", "action_value_str", 0, function(va
 end):set_str_data(Objs)
 
 blamed = player.player_id()
-menu.add_player_feature("Send RC Banditos Blamed: ", "action_value_str", 0, function(val, pid)
+menu.add_player_feature("Send RC Banditos Blamed: ", "action_value_str", trolls, function(val, pid)
 	local num = Objs[val.value+1]
 	local boomed = 0
 	cars = {}
@@ -162,7 +164,7 @@ menu.add_player_feature("Send RC Banditos Blamed: ", "action_value_str", 0, func
 	end
 end):set_str_data(Objs)
 
-menu.add_player_feature("Cage 'Em", "action", 0, function(val, pid)
+menu.add_player_feature("Cage 'Em", "action", trolls, function(val, pid)
 	ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
 	system.wait(0)
 	local pos = player.get_player_coords(pid)
@@ -170,14 +172,14 @@ menu.add_player_feature("Cage 'Em", "action", 0, function(val, pid)
 end)
 
 
-menu.add_player_feature("Update Players", "action", 0, function()
+menu.add_player_feature("Update Players", "action", trolls, function()
 	PlayerArray()
 	orbital:set_str_data(Playerz)
 	explode:set_str_data(Playerz)
 	menu.notify("Playerlist Updated", "Update", 5, 2)
 end)
 
-orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str", 0, function(val, pid)
+orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str", trolls, function(val, pid)
 	local pos = v3()
 	pped = player.get_player_ped(pid)
 	for i = 0, 33 do
@@ -240,7 +242,7 @@ orbital = menu.add_player_feature("Orbital Player Blaming: ", "action_value_str"
 	PlayerArray()
 end)
 
-local fire = menu.add_feature("Fire Ammo", "toggle", 0, function(feat)
+local fire = menu.add_feature("Fire Ammo", "toggle", trolls, function(feat)
 	if feat.on then
 		weapon.give_weapon_component_to_ped(pedLocals, 0xA914799, 0xEC0F617)
         pped = player.get_player_ped(player.player_id())
@@ -252,7 +254,7 @@ local fire = menu.add_feature("Fire Ammo", "toggle", 0, function(feat)
     return HANDLER_POP
 end)
 
-local health = menu.add_feature("Health Mod god mode", "toggle", 0, function(feat)
+local health = menu.add_feature("Health Mod god mode", "toggle", trolls, function(feat)
     if feat.on then
         ped.set_ped_max_health(pedLocals, 1000000)
 		ped.set_ped_health(pedLocals,  1000000)
@@ -263,7 +265,7 @@ local health = menu.add_feature("Health Mod god mode", "toggle", 0, function(fea
     return HANDLER_POP
 end)
 
-menu.add_player_feature("Crazy Rain", "toggle", 0, function(feat, pid)
+menu.add_player_feature("Crazy Rain", "toggle", trolls, function(feat, pid)
     menu.notify("Raining stuff on " .. player.get_player_name(pid), "Rain", 6, 6)
 	streaming.request_model(gameplay.get_hash_key("prop_elecbox_11"))
 	streaming.request_model(gameplay.get_hash_key("prop_ld_int_safe_01"))
@@ -279,7 +281,7 @@ menu.add_player_feature("Crazy Rain", "toggle", 0, function(feat, pid)
 end)
 
 --\\Freeze player before boom
-explodefreeze = add_player_feature("Explosive Player Blaming Freeze", "toggle", 0, function(val)
+explodefreeze = add_player_feature("Explosive Player Blaming Freeze", "toggle", trolls, function(val)
 	if val.on then
 		freezeplayer = true
 	else
@@ -290,7 +292,7 @@ explodefreeze = add_player_feature("Explosive Player Blaming Freeze", "toggle", 
 end)
 
 --\\Blame kill as selected person (auto updating because I am cool)
-explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_str", 0, function(val, pid)
+explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_str", trolls, function(val, pid)
 	if player.is_player_valid(pid) and pid ~= player.player_id() then 
 		if freezeplayer then
 			ped.clear_ped_tasks_immediately(player.get_player_ped(pid))
@@ -298,6 +300,13 @@ explode = menu.add_player_feature("Explosive Player Blaming: ", "action_value_st
 		else
 			menu.create_thread(boom, {val = val, pid = pid})
 		end
+	end
+end)
+
+menu.add_player_feature("SMS Spam", "toggle", popt.loops, function(feat, pid)
+	local msg =  get("Message to send", "You Suck", 50, 2)
+	while feat.on do
+		player.send_player_sms(pid, msg)
 	end
 end)
 
