@@ -229,7 +229,6 @@ menu.add_player_feature("SE Kick", "action", popt.opption, function(feat, pid)
 end)
 
 
---[[
 --\\Moist se spam
 menu.add_player_feature("Kick Data 1 Type 1 (M)", "toggle", popt.opption, function(feat, pid)
 	if feat.on then
@@ -250,7 +249,7 @@ menu.add_player_feature("Kick Data 1 Type 1 (M)", "toggle", popt.opption, functi
 
 	end
 end)
-
+--[[
 --\\Moist se spam
 menu.add_player_feature("Kick Data 1 Type 2 (M)", "toggle", popt.opption, function(feat, pid)
 	if feat.on then
