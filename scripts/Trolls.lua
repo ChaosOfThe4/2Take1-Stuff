@@ -306,7 +306,7 @@ end)
 menu.add_player_feature("SMS Spam", "toggle", trolls, function(feat, pid)
 	local msg =  input.get("Message to send", "You Suck", 75, 2)
 	while feat.on do
-		player.send_player_sms(pid, msg)
+		player.send_player_sms(pid, tostring(msg))
 		system.wait(500)
 	end
 end)
