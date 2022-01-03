@@ -186,7 +186,7 @@ menu.add_player_feature("Invalid World Object Spam", "action", popt.opption, fun
 	end
 end)
 
---\\All the slods because wtf atomic why the random peds
+--\\All the slods 
 menu.add_player_feature("Supple Slods", "action", popt.opption, function(val, pid)
 	menu.create_thread(slods, {pid = pid})
 end)
